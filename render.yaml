@@ -1,6 +1,6 @@
 databases:
   - name: blitzapp-db
-    plan: free
+    plan: starter
 
 services:
   - type: web
