@@ -23,7 +23,7 @@ export const TemplatesList = () => {
         {templates.map((template) => (
           <li key={template.id}>
             <Link href={Routes.ShowTemplatePage({ templateId: template.id })}>
-              <a>{template.name}</a>
+              <a>{template.dummyField}</a>
             </Link>
           </li>
         ))}

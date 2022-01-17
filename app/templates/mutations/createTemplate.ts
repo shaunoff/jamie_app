@@ -3,7 +3,7 @@ import db from "db"
 import { z } from "zod"
 
 const CreateTemplate = z.object({
-  name: z.string(),
+  dummyField: z.string(),
 })
 
 export default resolver.pipe(resolver.zod(CreateTemplate), resolver.authorize(), async (input) => {
