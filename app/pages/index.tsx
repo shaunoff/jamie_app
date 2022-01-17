@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { Image, Link, BlitzPage, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useCurrentDay } from "app/core/hooks/useCurrentDay"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 
@@ -12,6 +13,7 @@ import logo from "public/logo.png"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
+  const currentDay = useCurrentDay()
   const [logoutMutation] = useMutation(logout)
 
   if (currentUser) {
@@ -25,6 +27,7 @@ const UserInfo = () => {
         >
           Logout
         </button>
+        <h5>{`${currentDay.monthName}, ${currentDay.daySuffix}, ${currentDay.year}`}</h5>
         <div>
           User id: <code>{currentUser.id}</code>
           <br />
