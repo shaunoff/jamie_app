@@ -1,47 +1,52 @@
+import db, { Day } from "../index"
+
 import dayjs from "dayjs"
 import advancedFormat from "dayjs/plugin/advancedFormat"
 import week from "dayjs/plugin/weekOfYear"
 import dayYear from "dayjs/plugin/dayOfYear"
+import isoWeek from "dayjs/plugin/isoWeek"
 
 dayjs.extend(dayYear)
 dayjs.extend(advancedFormat)
 dayjs.extend(week)
 
-const startDate = dayjs("2022-06-25")
+// Make sure the week starts on Monday
+dayjs.extend(isoWeek)
 
-const id = parseInt(startDate.format("YYYYMMDD"))
-const actualDate = startDate.format("YYYY-MM-DD")
-const year = parseInt(startDate.format("YYYY"))
-const weekOfYear = parseInt(startDate.format("w"))
-const unix = parseInt(startDate.format("X"))
-const dayOfWeek = parseInt(startDate.format("d"))
-const dayOfMonth = parseInt(startDate.format("D"))
-const daySuffix = startDate.format("Do")
-const dayName = startDate.format("dddd")
-const dayOfYear = startDate.dayOfYear()
-const monthOfYear = parseInt(startDate.format("M"))
-const monthNameAbbreviated = startDate.format("MMM")
-const monthName = startDate.format("MMMM")
-const mmyyyy = startDate.format("MMYYYY")
-const mmddyyyy = startDate.format("MMDDYYYY")
+let startDate = dayjs("2022-01-01")
+let numberOfDays = 3650
 
-const data = {
-  id,
-  unix,
-  actualDate,
-  year,
-  weekOfYear,
-  dayOfWeek,
-  dayOfMonth,
-  daySuffix,
-  dayName,
-  dayOfYear,
-  monthOfYear,
-  monthNameAbbreviated,
-  monthName,
-  isWeekend: dayOfWeek >= 6,
-  mmyyyy,
-  mmddyyyy,
+const data: Day[] = []
+
+const createDates = async () => {
+  await db.day.deleteMany({})
+
+  while (numberOfDays >= 0) {
+    const dayData = {
+      id: parseInt(startDate.format("YYYYMMDD")),
+      actualDate: startDate.format("YYYY-MM-DD"),
+      year: parseInt(startDate.format("YYYY")),
+      weekOfYear: startDate.isoWeek(),
+      unix: BigInt(startDate.format("X")),
+      dayOfWeek: startDate.isoWeekday(),
+      dayOfMonth: parseInt(startDate.format("D")),
+      daySuffix: startDate.format("Do"),
+      dayName: startDate.format("dddd"),
+      dayOfYear: startDate.dayOfYear(),
+      monthOfYear: parseInt(startDate.format("M")),
+      monthNameAbbreviated: startDate.format("MMM"),
+      monthName: startDate.format("MMMM"),
+      isWeekend: parseInt(startDate.format("D")) >= 6,
+      mmyyyy: startDate.format("MMYYYY"),
+      mmddyyyy: startDate.format("MMDDYYYY"),
+    }
+
+    data.push(dayData)
+    startDate = startDate.add(1, "day")
+    numberOfDays--
+  }
+
+  return db.day.createMany({ data })
 }
 
-export default data
+export default createDates

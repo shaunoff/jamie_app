@@ -1,5 +1,4 @@
-import db from "./index"
-import startDate from "./seedFunctions/createDates"
+import createDates from "./seedFunctions/createDates"
 
 // import db from "./index"
 
@@ -11,8 +10,7 @@ import startDate from "./seedFunctions/createDates"
  * realistic data.
  */
 const seed = async () => {
-  await db.day.deleteMany({})
-  const date = await db.day.create({ data: startDate })
+  createDates()
   // for (let i = 0; i < 5; i++) {
   //   await db.project.create({ data: { name: "Project " + i } })
   // }
