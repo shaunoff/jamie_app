@@ -1,6 +1,6 @@
-DROP TABLE if exists day;
+DROP TABLE if exists Day;
 
-CREATE TABLE day
+CREATE TABLE Day
 (
   id                       INT NOT NULL,
   actualDate              DATE NOT NULL,
@@ -33,14 +33,14 @@ CREATE TABLE day
   isWeekend            BOOLEAN NOT NULL
 );
 
-ALTER TABLE public.day ADD CONSTRAINT d_date_date_dim_id_pk PRIMARY KEY (id);
+ALTER TABLE public.Day ADD CONSTRAINT dayDateDimId_pk PRIMARY KEY (id);
 
-CREATE INDEX d_date_date_actual_idx
-  ON day(actualDate);
+CREATE INDEX dayActualDate_idx
+  ON Day(actualDate);
 
 COMMIT;
 
-INSERT INTO day
+INSERT INTO Day
 SELECT TO_CHAR(datum, 'yyyymmdd')::INT AS id,
        datum AS actualDate,
        EXTRACT(EPOCH FROM datum) AS epoch,
@@ -78,7 +78,7 @@ SELECT TO_CHAR(datum, 'yyyymmdd')::INT AS id,
            WHEN EXTRACT(ISODOW FROM datum) IN (6, 7) THEN TRUE
            ELSE FALSE
            END AS isWeekend
-FROM (SELECT '1970-01-01'::DATE + SEQUENCE.DAY AS datum
+FROM (SELECT '2022-01-01'::DATE + SEQUENCE.DAY AS datum
       FROM GENERATE_SERIES(0, 29219) AS SEQUENCE (DAY)
       GROUP BY SEQUENCE.DAY) DQ
 ORDER BY 1;

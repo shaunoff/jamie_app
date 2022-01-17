@@ -63,3 +63,22 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
+
+model Day {
+  id                   Int     @id
+  actualDate           String
+  year                 Int
+  unix                 BigInt
+  daySuffix            String  @db.VarChar(4)
+  dayName              String  @db.VarChar(9)
+  dayOfWeek            Int
+  dayOfMonth           Int
+  dayOfYear            Int
+  weekOfYear           Int
+  monthOfYear          Int
+  monthName            String  @db.VarChar(9)
+  monthNameAbbreviated String  @db.Char(3)
+  mmyyyy               String  @db.Char(6)
+  mmddyyyy             String  @db.Char(8)
+  isWeekend            Boolean
+}
