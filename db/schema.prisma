@@ -82,3 +82,10 @@ model Day {
   mmddyyyy             String  @db.Char(8)
   isWeekend            Boolean
 }
+
+model Template {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  dummyField String
+}
