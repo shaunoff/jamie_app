@@ -6,7 +6,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
       <Head>
         <title>{title || "sprightly"}</title>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="application-name" content="PWA App" />
+        <meta name="application-name" content="Sprightly" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="PWA App" />
@@ -20,7 +20,8 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
         <meta name="theme-color" content="red"></meta>
         <meta name="mobile-web-app-capable" content="yes" />
         {/* iOS */}
-        <meta name="apple-mobile-web-app-title" content="Application Title" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/192"></link>
+        <meta name="apple-mobile-web-app-title" content="Sprightly" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
