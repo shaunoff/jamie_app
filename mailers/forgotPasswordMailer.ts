@@ -12,7 +12,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   const resetUrl = `${origin}/reset-password?token=${token}`
 
   const msg = {
-    from: "support@sprightly.com",
+    from: "support@sprightly.app",
     to,
     subject: "Your Password Reset Instructions",
     html: `
