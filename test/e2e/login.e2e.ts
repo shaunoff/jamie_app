@@ -26,7 +26,6 @@ describe("Login", () => {
         cy.findByLabelText(/email/i).type(user.email)
         cy.findByLabelText(/password/i).type(attrs.password)
         cy.findAllByRole("button", { name: /login/i }).click()
-
         cy.location("pathname").should("equal", "/")
         cy.findByText(/logout/i).should("exist")
       })

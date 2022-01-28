@@ -1,7 +1,7 @@
 import { user } from "./user"
 export * from "./user"
-import { resetToken } from "./token"
-export * from "./token"
+import { resetToken } from "./resetToken"
+export * from "./resetToken"
 
 export const Factories = {
   user,
