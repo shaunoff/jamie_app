@@ -33,7 +33,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
     async send() {
       if (process.env.NODE_ENV === "production") {
         try {
-          await await postmarkClient.send(message)
+          await await postmarkClient.sendEmail(message)
         } catch (err) {
           console.error(err)
         }
