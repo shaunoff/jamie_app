@@ -1,10 +1,10 @@
 import previewEmail from "preview-email"
-var postmark = require("postmark")
+import postmarkClient from "integrations/postmark"
+
 type ResetPasswordMailer = {
   to: string
   token: string
 }
-var client = new postmark.ServerClient("9c6aeaad-149b-48b2-b78f-f811d6231e97")
 
 export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   // In production, set APP_ORIGIN to your production server origin
@@ -33,7 +33,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
     async send() {
       if (process.env.NODE_ENV === "production") {
         try {
-          await await client.send(message)
+          await await postmarkClient.sendEmail(message)
         } catch (err) {
           console.error(err)
         }
