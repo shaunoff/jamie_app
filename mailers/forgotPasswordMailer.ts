@@ -1,9 +1,4 @@
-/* TODO - You need to add a mailer integration in `integrations/` and import here.
- *
- * The integration file can be very simple. Instantiate the email client
- * and then export it. That way you can import here and anywhere else
- * and use it straight away.
- */
+import sgMail from "integrations/sendGrid"
 import previewEmail from "preview-email"
 
 type ResetPasswordMailer = {
@@ -17,7 +12,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   const resetUrl = `${origin}/reset-password?token=${token}`
 
   const msg = {
-    from: "TODO@example.com",
+    from: "support@sprightly.com",
     to,
     subject: "Your Password Reset Instructions",
     html: `
@@ -33,9 +28,11 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   return {
     async send() {
       if (process.env.NODE_ENV === "production") {
-        // TODO - send the production email, like this:
-        // await postmark.sendEmail(msg)
-        throw new Error("No production email implementation in mailers/forgotPasswordMailer")
+        try {
+          await await sgMail.send(msg)
+        } catch (err) {
+          console.error(err)
+        }
       } else {
         // Preview email in the browser
         await previewEmail(msg)
