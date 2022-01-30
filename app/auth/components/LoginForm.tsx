@@ -46,13 +46,13 @@ export const LoginForm = (props: LoginFormProps) => {
           type="password"
           data-testid="login-password"
         />
-        <div>
-          <Link href={Routes.ForgotPasswordPage()}>
-            <a>Forgot your password</a>
-          </Link>
-        </div>
       </Form>
 
+      <div>
+        <Link href={Routes.ForgotPasswordPage()}>
+          <a>Forgot your password</a>
+        </Link>
+      </div>
       <div style={{ marginTop: "1rem" }}>
         Or <Link href={Routes.SignupPage()}>Sign Up</Link>
       </div>
