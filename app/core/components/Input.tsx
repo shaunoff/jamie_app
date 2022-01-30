@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react"
+import React, { forwardRef, ComponentPropsWithoutRef } from "react"
 import clsx from "clsx"
 import { overrideTailwindClasses } from "tailwind-override"
 import { ExclamationCircleIcon } from "@heroicons/react/solid"
