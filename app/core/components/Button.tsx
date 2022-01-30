@@ -199,7 +199,7 @@ const Button = React.forwardRef<Ref, ButtonProps>(function Button(props: ButtonP
       ref,
       disabled,
       type,
-      "data-testId": testId,
+      "data-testid": testId,
       ...other,
     },
     IconLeft

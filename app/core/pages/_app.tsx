@@ -6,6 +6,7 @@ import {
   AuthorizationError,
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
+  Head,
 } from "blitz"
 import LoginForm from "app/auth/components/LoginForm"
 
@@ -15,12 +16,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <ErrorBoundary
-      FallbackComponent={RootErrorFallback}
-      onReset={useQueryErrorResetBoundary().reset}
-    >
-      {getLayout(<Component {...pageProps} />)}
-    </ErrorBoundary>
+    <>
+      <ErrorBoundary
+        FallbackComponent={RootErrorFallback}
+        onReset={useQueryErrorResetBoundary().reset}
+      >
+        {getLayout(<Component {...pageProps} />)}
+      </ErrorBoundary>
+    </>
   )
 }
 

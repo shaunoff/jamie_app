@@ -37,7 +37,7 @@ const UserInfo = () => {
       </>
     )
   } else {
-    return <div>dgfshsjdfghjsdgfjhdsgfjh</div>
+    throw Error("Only Users are able to access this Area")
   }
 }
 
