@@ -30,7 +30,6 @@
     ]
   },
   "dependencies": {
-    "@headlessui/react": "1.4.3",
     "@heroicons/react": "1.0.5",
     "@prisma/client": "3.8.1",
     "@tailwindcss/forms": "0.4.0",

@@ -9,7 +9,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en" className="h-full bg-gray-100">
+      <Html lang="en">
         <DocumentHead>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -18,7 +18,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </DocumentHead>
-        <body className="h-full">
+        <body>
           <Main />
           <BlitzScript />
         </body>
