@@ -3,10 +3,10 @@ import { User } from "test/factories"
 describe("Login", () => {
   describe("with an email that doesnt exist", () => {
     it("shows an error", () => {
+      cy.visit("/login").wait(300)
+
       const email = "nowayshouldIexist@example.com"
       const password = "test1234"
-
-      cy.visit("/login").wait(100)
 
       cy.findByTestId("login-email").type(email)
       cy.findByTestId("login-password").type(password)
@@ -28,6 +28,9 @@ describe("Login", () => {
         cy.findAllByRole("button", { name: /login/i }).click()
         cy.location("pathname").should("equal", "/")
         cy.findByText(/logout/i).should("exist")
+        cy.findByText(/logout/i)
+          .click()
+          .wait(1000)
       })
     })
   })

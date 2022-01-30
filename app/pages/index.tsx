@@ -20,6 +20,7 @@ const UserInfo = () => {
     return (
       <>
         <button
+          data-tast-id="logout-button"
           className="button small"
           onClick={async () => {
             await logoutMutation()

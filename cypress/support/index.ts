@@ -20,6 +20,6 @@ before(() => {
 })
 
 beforeEach(() => {
-  // you can clear the database here
-  //cy.task("db:seed")
+  // cy.task("db:reset")
+  // cy.task("db:seed")
 })
