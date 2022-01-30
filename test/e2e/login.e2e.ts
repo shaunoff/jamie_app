@@ -27,10 +27,10 @@ describe("Login", () => {
         cy.findByTestId("login-password").type(attrs.password)
         cy.findAllByRole("button", { name: /login/i }).click()
         cy.location("pathname").should("equal", "/")
-        cy.findByText(/logout/i).should("exist")
+
         cy.findByText(/logout/i)
           .click()
-          .wait(1000)
+          .wait(2000)
       })
     })
   })

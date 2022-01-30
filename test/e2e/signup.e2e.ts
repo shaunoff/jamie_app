@@ -11,9 +11,9 @@ describe("Signup", () => {
       .wait(300)
 
     cy.location("pathname").should("equal", "/")
-    cy.findByText(/logout/i).should("exist")
     cy.findByText(/logout/i)
+      .should("exist")
       .click()
-      .wait(1000)
+      .wait(2000)
   })
 })
