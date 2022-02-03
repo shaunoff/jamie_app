@@ -1,5 +1,5 @@
 import { useMutation } from "blitz"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { LabeledInputField } from "app/core/components/LabeledInputField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import signup from "app/auth/mutations/signup"
 import { Signup } from "app/auth/validations"
@@ -33,13 +33,13 @@ export const SignupForm = (props: SignupFormProps) => {
           }
         }}
       >
-        <LabeledTextField
+        <LabeledInputField
           name="email"
           label="Email"
           placeholder="Email"
           data-testid="signup-email"
         />
-        <LabeledTextField
+        <LabeledInputField
           name="password"
           label="Password"
           placeholder="Password"

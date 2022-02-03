@@ -89,3 +89,11 @@ model Template {
   updatedAt  DateTime @updatedAt
   dummyField String
 }
+
+model Section {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  number    String
+}

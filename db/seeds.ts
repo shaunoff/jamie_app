@@ -1,5 +1,5 @@
 import createDates from "./seedFunctions/createDates"
-
+import createSections from "./seedFunctions/createSections"
 // import db from "./index"
 
 /*
@@ -11,6 +11,7 @@ import createDates from "./seedFunctions/createDates"
  */
 const seed = async () => {
   createDates()
+  createSections()
   // for (let i = 0; i < 5; i++) {
   //   await db.project.create({ data: { name: "Project " + i } })
   // }

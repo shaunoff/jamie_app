@@ -2,7 +2,7 @@ import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import Input from "./Input"
 
-export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
+export interface LabeledInputFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
   name: string
   /** Field label. */
@@ -14,7 +14,7 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
   fieldProps?: UseFieldConfig<string>
 }
 
-export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
+export const LabeledInputField = forwardRef<HTMLInputElement, LabeledInputFieldProps>(
   ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
     const {
       input,
@@ -40,36 +40,9 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
           error={touched && normalizedError}
           valid={input.value && touched && !error}
         />
-        {/* <label {...labelProps}>
-          {label}
-          <input {...input} disabled={submitting} {...props} ref={ref} />
-        </label>
-
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-
-        <style jsx>{`
-          label {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            font-size: 1rem;
-          }
-          input {
-            font-size: 1rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 3px;
-            border: 1px solid purple;
-            appearance: none;
-            margin-top: 0.5rem;
-          }
-        `}</style> */}
       </div>
     )
   }
 )
 
-export default LabeledTextField
+export default LabeledInputField
