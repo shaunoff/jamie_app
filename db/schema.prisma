@@ -89,3 +89,22 @@ model Template {
   updatedAt  DateTime @updatedAt
   dummyField String
 }
+
+model Section {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  number    String
+  actions   Action[]
+}
+
+model Action {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  number    String
+  section   Section  @relation(fields: [sectionId], references: [id])
+  sectionId Int
+}

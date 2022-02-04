@@ -5,6 +5,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { useCurrentDay } from "app/core/hooks/useCurrentDay"
 import logout from "app/auth/mutations/logout"
 import sprightly from "public/sprightly.svg"
+import StackedList from "app/core/components/StackedList"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -19,7 +20,7 @@ const UserInfo = () => {
   if (currentUser) {
     return (
       <>
-        <button
+        {/* <button
           data-tast-id="logout-button"
           className="button small"
           onClick={async () => {
@@ -33,7 +34,8 @@ const UserInfo = () => {
           User id: <code>{currentUser.id}</code>
           <br />
           User role: <code>{currentUser.role}</code>
-        </div>
+        </div> */}
+        <StackedList />
       </>
     )
   } else {
@@ -53,6 +55,6 @@ const Home: BlitzPage = () => {
 
 Home.authenticate = { redirectTo: "/login" }
 Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
+Home.getLayout = (page) => <Layout title="Audit Report">{page}</Layout>
 
 export default Home

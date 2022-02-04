@@ -1,5 +1,6 @@
 import { AuthenticationError, Link, useMutation, Routes, PromiseReturnType } from "blitz"
-import { LabeledTextField } from "app/core/components/LabeledTextField"
+import { LabeledInputField } from "app/core/components/LabeledInputField"
+import { LabeledTextAreaField } from "app/core/components/LabeledTextAreaField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
@@ -33,17 +34,23 @@ export const LoginForm = (props: LoginFormProps) => {
           }
         }}
       >
-        <LabeledTextField
+        <LabeledInputField
           name="email"
           label="Email"
           placeholder="Email"
           data-testid="login-email"
         />
-        <LabeledTextField
+        <LabeledInputField
           name="password"
           label="Password"
           placeholder="Password"
           type="password"
+          data-testid="login-password"
+        />
+        <LabeledTextAreaField
+          name="password"
+          label="Password"
+          placeholder="Password"
           data-testid="login-password"
         />
       </Form>
