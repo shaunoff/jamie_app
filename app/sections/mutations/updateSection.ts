@@ -5,6 +5,7 @@ import { z } from "zod"
 const UpdateSection = z.object({
   id: z.number(),
   name: z.string(),
+  number: z.number(),
   actions: z.array(z.object({ title: z.string() })),
 })
 

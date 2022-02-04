@@ -4,7 +4,7 @@ import { z, ZodString } from "zod"
 
 const CreateAction = z.object({
   title: z.string(),
-  number: z.string(),
+  number: z.number(),
   sectionId: z.number(),
 })
 

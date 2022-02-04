@@ -4,8 +4,8 @@ import { z } from "zod"
 
 export const CreateSection = z.object({
   name: z.string(),
-  number: z.string(),
-  actions: z.array(z.object({ title: z.string() })),
+  number: z.number(),
+  actions: z.array(z.object({ title: z.string(), number: z.number() })),
 })
 
 export default resolver.pipe(resolver.zod(CreateSection), resolver.authorize(), async (input) => {
@@ -16,7 +16,8 @@ export default resolver.pipe(resolver.zod(CreateSection), resolver.authorize(), 
         create: input.actions.map((action, index) => {
           return {
             ...action,
-            number: (index + 1).toString(),
+            // todo: this is only temp
+            number: index + 1,
           }
         }),
       },
