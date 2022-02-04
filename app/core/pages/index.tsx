@@ -97,6 +97,13 @@ const UserInfo = () => {
             </li>
           ))}
         </ul>
+        <div
+          onClick={async () => {
+            await logoutMutation()
+          }}
+        >
+          logout
+        </div>
       </>
     )
   } else {

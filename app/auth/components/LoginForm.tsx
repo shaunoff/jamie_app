@@ -47,12 +47,6 @@ export const LoginForm = (props: LoginFormProps) => {
           type="password"
           data-testid="login-password"
         />
-        <LabeledTextAreaField
-          name="password"
-          label="Password"
-          placeholder="Password"
-          data-testid="login-password"
-        />
       </Form>
 
       <div>
