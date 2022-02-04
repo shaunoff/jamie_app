@@ -2,14 +2,26 @@ import { resolver } from "blitz"
 import db from "db"
 import { z } from "zod"
 
-const CreateSection = z.object({
+export const CreateSection = z.object({
   name: z.string(),
   number: z.string(),
+  actions: z.array(z.object({ title: z.string() })),
 })
 
 export default resolver.pipe(resolver.zod(CreateSection), resolver.authorize(), async (input) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const section = await db.section.create({ data: input })
+  const section = await db.section.create({
+    data: {
+      ...input,
+      actions: {
+        create: input.actions.map((action, index) => {
+          return {
+            ...action,
+            number: (index + 1).toString(),
+          }
+        }),
+      },
+    },
+  })
 
   return section
 })
