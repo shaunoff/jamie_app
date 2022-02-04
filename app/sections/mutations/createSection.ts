@@ -4,7 +4,7 @@ import { z } from "zod"
 
 export const CreateSection = z.object({
   name: z.string(),
-  number: z.string(),
+  number: z.number(),
   actions: z.array(z.object({ title: z.string() })),
 })
 
