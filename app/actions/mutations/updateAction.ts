@@ -4,7 +4,9 @@ import { z } from "zod"
 
 const UpdateAction = z.object({
   id: z.number(),
-  name: z.string(),
+  title: z.string(),
+  number: z.string(),
+  sectionId: z.number(),
 })
 
 export default resolver.pipe(
