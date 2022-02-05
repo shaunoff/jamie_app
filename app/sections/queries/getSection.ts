@@ -9,7 +9,7 @@ const GetSection = z.object({
 
 export default resolver.pipe(resolver.zod(GetSection), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const section = await db.section.findFirst({ where: { id } })
+  const section = await db.auditSection.findFirst({ where: { id } })
 
   if (!section) throw new NotFoundError()
 

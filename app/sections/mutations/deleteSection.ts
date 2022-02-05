@@ -8,7 +8,7 @@ const DeleteSection = z.object({
 
 export default resolver.pipe(resolver.zod(DeleteSection), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const section = await db.section.deleteMany({ where: { id } })
+  const section = await db.auditSection.deleteMany({ where: { id } })
 
   return section
 })
