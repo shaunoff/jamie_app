@@ -3,7 +3,8 @@ import db from "db"
 import { z } from "zod"
 
 const CreateAudit = z.object({
-  name: z.string(),
+  text: z.string(),
+  locationId: z.number(),
 })
 
 export default resolver.pipe(resolver.zod(CreateAudit), resolver.authorize(), async (input) => {
