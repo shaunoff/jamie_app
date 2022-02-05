@@ -108,3 +108,17 @@ model Action {
   section   Section  @relation(fields: [sectionId], references: [id])
   sectionId Int
 }
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  address1  String
+  address2  String?
+  city      String
+  county    String?
+  postCode  String
+  poc       String?
+  contact   String?
+}

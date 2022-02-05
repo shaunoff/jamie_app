@@ -1,4 +1,4 @@
-import { Head, BlitzLayout, Image } from "blitz"
+import { Head, BlitzLayout, Image, useRouter } from "blitz"
 import sprightly from "public/logo_long.png"
 
 import { Fragment, useState } from "react"
@@ -15,12 +15,13 @@ import {
 } from "@heroicons/react/outline"
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+  { name: "Dashboard", href: "/", icon: HomeIcon },
+  { name: "Locations", href: "/locations", icon: HomeIcon },
+  // { name: "Team", href: "#", icon: UsersIcon, current: false },
+  // { name: "Projects", href: "#", icon: FolderIcon, current: false },
+  // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  // { name: "Documents", href: "#", icon: InboxIcon, current: false },
+  // { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
 ]
 
 function classNames(...classes) {
@@ -29,7 +30,8 @@ function classNames(...classes) {
 
 const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+  const router = useRouter()
+  console.log(router.pathname, navigation)
   return (
     <>
       <div>
@@ -83,33 +85,27 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                     </div> */}
                   </div>
                   <nav className="mt-5 px-2 space-y-1">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-blue-300 text-gray-700"
-                            : "text-gray-600 hover:bg-blue-100 hover:text-gray-700",
-                          "group flex items-center px-2 py-2 text-base font-bold rounded-md"
-                        )}
-                      >
-                        <item.icon
-                          className={classNames(
-                            item.current
-                              ? "text-gray-700"
-                              : "text-blue-400 group-hover:text-blue-500",
-                            "mr-3 flex-shrink-0 h-6 w-6"
-                          )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                    ))}
+                    {navigation.map((item) => {
+                      console.log(item.href === router.pathname)
+                      const anchorClass =
+                        item.href == router.pathname
+                          ? "bg-blue-300 text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
+                          : "text-gray-600 hover:bg-blue-100 hover:text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
+                      const iconClass =
+                        item.href == router.pathname
+                          ? "text-gray-700 mr-3 flex-shrink-0 h-6 w-6"
+                          : "text-blue-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-6 w-6"
+                      return (
+                        <a key={item.name} href={item.href} className={anchorClass}>
+                          <item.icon className={iconClass} aria-hidden="true" />
+                          {item.name}
+                        </a>
+                      )
+                    })}
                   </nav>
                 </div>
                 <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-                  <a href="#" className="flex-shrink-0 group block">
+                  {/* <a href="#" className="flex-shrink-0 group block">
                     <div className="flex items-center">
                       <div>
                         <img
@@ -127,7 +123,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </Transition.Child>
@@ -146,32 +142,28 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                 <Image src={sprightly} alt="sprightly" />
               </div> */}
               <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-blue-300 text-gray-700"
-                        : "text-gray-600 hover:bg-blue-100 hover:text-gray-700",
-                      "group flex items-center px-2 py-2 text-base font-bold rounded-md"
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current ? "text-gray-700" : "text-blue-400 group-hover:text-blue-500",
-                        "mr-3 flex-shrink-0 h-6 w-6"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
+                {navigation.map((item) => {
+                  console.log(item.href === router.pathname)
+                  const anchorClass =
+                    item.href == router.pathname
+                      ? "bg-blue-300 text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
+                      : "text-gray-600 hover:bg-blue-100 hover:text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
+                  const iconClass =
+                    item.href == router.pathname
+                      ? "text-gray-700 mr-3 flex-shrink-0 h-6 w-6"
+                      : "text-blue-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-6 w-6"
+                  return (
+                    <a key={item.name} href={item.href} className={anchorClass}>
+                      <item.icon className={iconClass} aria-hidden="true" />
+                      {item.name}
+                    </a>
+                  )
+                })}
               </nav>
             </div>
             <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
               <a href="#" className="flex-shrink-0 w-full group block">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <div>
                     <img
                       className="inline-block h-9 w-9 rounded-full"
@@ -187,7 +179,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                       View profile
                     </p>
                   </div>
-                </div>
+                </div> */}
               </a>
             </div>
           </div>
