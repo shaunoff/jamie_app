@@ -9,7 +9,7 @@ const GetAction = z.object({
 
 export default resolver.pipe(resolver.zod(GetAction), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const action = await db.action.findFirst({ where: { id } })
+  const action = await db.auditAction.findFirst({ where: { id } })
 
   if (!action) throw new NotFoundError()
 

@@ -6,7 +6,7 @@ const UpdateAction = z.object({
   id: z.number(),
   title: z.string(),
   number: z.number(),
-  sectionId: z.number(),
+  auditSectionId: z.number(),
 })
 
 export default resolver.pipe(
@@ -14,7 +14,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const action = await db.action.update({ where: { id }, data })
+    const action = await db.auditAction.update({ where: { id }, data })
 
     return action
   }

@@ -1,12 +1,12 @@
 import { paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
-interface GetActionsInput
-  extends Pick<Prisma.ActionFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+interface GetAuditActionsInput
+  extends Pick<Prisma.AuditActionFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetActionsInput) => {
+  async ({ where, orderBy, skip = 0, take = 100 }: GetAuditActionsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: actions,
@@ -16,8 +16,8 @@ export default resolver.pipe(
     } = await paginate({
       skip,
       take,
-      count: () => db.action.count({ where }),
-      query: (paginateArgs) => db.action.findMany({ ...paginateArgs, where, orderBy }),
+      count: () => db.auditAction.count({ where }),
+      query: (paginateArgs) => db.auditAction.findMany({ ...paginateArgs, where, orderBy }),
     })
 
     return {

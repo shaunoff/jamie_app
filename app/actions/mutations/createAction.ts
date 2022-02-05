@@ -3,14 +3,14 @@ import db from "db"
 import { z, ZodString } from "zod"
 
 const CreateAction = z.object({
-  title: z.string(),
+  name: z.string(),
   number: z.number(),
-  sectionId: z.number(),
+  auditSectionId: z.number(),
 })
 
 export default resolver.pipe(resolver.zod(CreateAction), resolver.authorize(), async (input) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const action = await db.action.create({ data: input })
+  const action = await db.auditAction.create({ data: input })
 
   return action
 })
