@@ -11,12 +11,15 @@ import {
   InboxIcon,
   MenuIcon,
   UsersIcon,
+  LocationMarkerIcon,
+  CogIcon,
   XIcon,
 } from "@heroicons/react/outline"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
-  { name: "Locations", href: "/locations", icon: HomeIcon },
+  { name: "Locations", href: "/locations", icon: LocationMarkerIcon },
+  { name: "Admin", href: "/admin", icon: CogIcon },
   // { name: "Team", href: "#", icon: UsersIcon, current: false },
   // { name: "Projects", href: "#", icon: FolderIcon, current: false },
   // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },

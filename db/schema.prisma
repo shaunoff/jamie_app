@@ -90,25 +90,6 @@ model Template {
   dummyField String
 }
 
-model Section {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  number    Int?
-  actions   Action[]
-}
-
-model Action {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  number    Int?
-  section   Section  @relation(fields: [sectionId], references: [id])
-  sectionId Int
-}
-
 model Location {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -121,4 +102,44 @@ model Location {
   postCode  String
   poc       String?
   contact   String?
+  Audit     Audit[]
+}
+
+model Audit {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  text       String
+  location   Location @relation(fields: [locationId], references: [id])
+  locationId Int
+}
+
+model AuditType {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  name         String
+  description  String
+  auditSection AuditSection[]
+}
+
+model AuditSection {
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  name         String
+  number       Int?
+  auditType    AuditType     @relation(fields: [auditTypeId], references: [id])
+  auditTypeId  Int
+  auditActions AuditAction[]
+}
+
+model AuditAction {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  name           String
+  number         Int?
+  auditSection   AuditSection @relation(fields: [auditSectionId], references: [id])
+  auditSectionId Int
 }

@@ -41,7 +41,7 @@ const UserInfo = () => {
               </div>
               <div className="bg-white shadow overflow-hidden sm:rounded-md">
                 <ul role="list" className="divide-y divide-gray-200">
-                  {section.actions.map((application, i) => (
+                  {section.auditActions.map((application, i) => (
                     <li key={i}>
                       <div className="block hover:bg-gray-50">
                         <div className="flex items-center px-4 py-4 sm:px-6">
@@ -52,7 +52,7 @@ const UserInfo = () => {
                                   {`${section.number} . ${application.number}`}
                                 </p>
                                 <p className="mt-2 flex items-center text-sm text-gray-500">
-                                  <span>{application.title}</span>
+                                  <span>{application.name}</span>
                                 </p>
                               </div>
                               <div className="hidden md:block">

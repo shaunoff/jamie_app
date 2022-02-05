@@ -51,19 +51,6 @@ const LocationsPage: BlitzPage = () => {
       </Head>
 
       <div>
-        <div className="flex justify-end py-2">
-          {/* <Link href={Routes.NewLocationPage()}>
-            <a>Create Location</a>
-          </Link> */}
-          <button
-            onClick={() => router.push(Routes.NewLocationPage())}
-            type="button"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Create Location
-          </button>
-        </div>
-
         <Suspense fallback={<div>Loading...</div>}>
           <LocationsList />
         </Suspense>

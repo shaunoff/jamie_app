@@ -1,7 +1,8 @@
 import createDates from "./seedFunctions/createDates"
-import createSections from "./seedFunctions/createSections"
-// import db from "./index"
-
+import createAuditTypes from "./seedFunctions/createAuditTypes"
+import createLocations from "./seedFunctions/createLocations"
+import db from "./index"
+//const fs = require("fs")
 /*
  * This seed function is executed when you run `blitz db seed`.
  *
@@ -10,8 +11,18 @@ import createSections from "./seedFunctions/createSections"
  * realistic data.
  */
 const seed = async () => {
-  createDates()
-  createSections()
+  await createAuditTypes()
+  await createLocations()
+  // const locations = await db.location.findMany()
+  // console.log(locations)
+  // //createDates()
+  // fs.writeFile("user.json", JSON.stringify(locations), (err) => {
+  //   if (err) {
+  //     throw err
+  //   }
+  //   console.log("JSON data is saved.")
+  // })
+  //createSections()
   // for (let i = 0; i < 5; i++) {
   //   await db.project.create({ data: { name: "Project " + i } })
   // }
