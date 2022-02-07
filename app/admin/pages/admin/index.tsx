@@ -18,7 +18,6 @@ const ITEMS_PER_PAGE = 100
 export const Admin = () => {
   const [{ locations }] = useQuery(getLocations, {})
   // const [{ auditTypes }, { refetch }] = useQuery(getAuditTypes, {})
-  // const [updateAuditTypesMutation] = useMutation(updateAuditTypes)
   const tabs = [{ name: "Audits" }, { name: "Locations" }]
 
   return (
