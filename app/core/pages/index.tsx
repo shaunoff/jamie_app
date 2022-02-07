@@ -49,7 +49,7 @@ const UserInfo = () => {
                             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                               <div>
                                 <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-bold bg-blue-100 text-blue-800">
-                                  {`${section.number} . ${application.number}`}
+                                  {`${section.number} . ${application.position}`}
                                 </p>
                                 <p className="mt-2 flex items-center text-sm text-gray-500">
                                   <span>{application.name}</span>

@@ -10,20 +10,7 @@ export const CreateSection = z.object({
 })
 
 export default resolver.pipe(resolver.zod(CreateSection), resolver.authorize(), async (input) => {
-  const section = await db.auditSection.create({
-    data: {
-      ...input,
-      auditActions: {
-        create: input.auditActions.map((action, index) => {
-          return {
-            ...action,
-            // todo: this is only temp
-            number: index + 1,
-          }
-        }),
-      },
-    },
-  })
+  const section = await db.auditSection.create({ data: input })
 
   return section
 })

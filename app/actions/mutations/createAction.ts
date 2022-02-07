@@ -6,6 +6,7 @@ const CreateAction = z.object({
   name: z.string(),
   number: z.number(),
   auditSectionId: z.number(),
+  position: z.number(),
 })
 
 export default resolver.pipe(resolver.zod(CreateAction), resolver.authorize(), async (input) => {

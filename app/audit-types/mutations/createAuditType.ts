@@ -5,6 +5,7 @@ import { z } from "zod"
 const CreateAuditType = z.object({
   name: z.string(),
   description: z.string(),
+  position: z.number(),
 })
 
 export default resolver.pipe(resolver.zod(CreateAuditType), resolver.authorize(), async (input) => {
