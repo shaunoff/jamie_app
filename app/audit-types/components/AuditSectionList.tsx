@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import db, { Location, AuditType, AuditSection, AuditAction } from "db"
 import { AuditTypes } from "./AuditTypesAdmin"
 import ActionItemList from "./ActionItemList"
+import CreateActionItem from "./CreateActionItem"
 
 type AuditSectionNested = (AuditSection & {
   auditActions: AuditAction[]
@@ -36,6 +37,12 @@ const AuditSectionList: React.FC<AuditSectionListProps> = ({
               </div>
             )}
             <ActionItemList
+              auditTypeId={auditTypeId}
+              sectionId={section.id}
+              auditTypes={auditTypes}
+              updateAuditTypes={updateAuditTypes}
+            />
+            <CreateActionItem
               auditTypeId={auditTypeId}
               sectionId={section.id}
               auditTypes={auditTypes}

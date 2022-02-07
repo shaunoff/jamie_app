@@ -9,9 +9,6 @@ import {
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd"
 import { CheckIcon, DotsVerticalIcon, PencilIcon, XIcon } from "@heroicons/react/outline"
-import updateAuditActionPositions from "app/actions/mutations/updateAuditActionsPositions"
-import updateAuditAction from "app/actions/mutations/updateAction"
-import getAction from "app/actions/queries/getAction"
 import { useMutation, useQuery } from "blitz"
 import partition from "app/shared/utils/partition"
 
@@ -162,7 +159,7 @@ const ActionItem: React.FC<ActionItemProps> = React.memo(
                 <div className="flex">
                   <CheckIcon
                     className="h-8 w-8 text-green-500 mr-2 cursor-pointer"
-                    onClick={handleUpdateAction}
+                    onClick={() => handleUpdateAction}
                   />
                   <XIcon
                     className="h-8 w-8 text-red-500 cursor-pointer"
@@ -175,7 +172,7 @@ const ActionItem: React.FC<ActionItemProps> = React.memo(
                 </div>
               ) : (
                 <PencilIcon
-                  className={`h-5 w-5 text-blue-500 ml-auto cursor-pointer ${
+                  className={`h-5 w-5 text-blue-500  flex-shrink-0 ml-auto cursor-pointer ${
                     disableDrag && "opacity-30"
                   }`}
                   onClick={() => {
