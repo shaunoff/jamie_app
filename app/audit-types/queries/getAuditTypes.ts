@@ -29,16 +29,18 @@ export default resolver.pipe(
               include: {
                 auditActions: {
                   orderBy: {
-                    number: "asc",
+                    position: "asc",
                   },
                 },
               },
             },
           },
-          orderBy,
+          orderBy: {
+            position: "asc",
+          },
         }),
     })
-
+    console.log("waaaaaaaaaa", auditTypes)
     return {
       auditTypes,
       nextPage,

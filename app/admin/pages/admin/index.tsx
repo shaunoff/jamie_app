@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { Head, Link, useQuery, useRouter, BlitzPage, Routes } from "blitz"
+import { Head, Link, useQuery, useRouter, BlitzPage, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getSections from "app/sections/queries/getSections"
 import TextArea from "app/core/components/TextArea"
@@ -10,15 +10,15 @@ import getLocations from "app/locations/queries/getLocations"
 import getAuditTypes from "app/audit-types/queries/getAuditTypes"
 import LocationTable from "app/locations/components/LocationTable"
 import AuditTypesAdmin from "app/audit-types/components/AuditTypesAdmin"
-
+import updateAuditTypes from "app/audit-types/mutations/updateAuditTypes"
 import Tabs from "app/shared/components/Tabs"
 
 const ITEMS_PER_PAGE = 100
 
 export const Admin = () => {
   const [{ locations }] = useQuery(getLocations, {})
-  const [{ auditTypes }] = useQuery(getAuditTypes, {})
-
+  // const [{ auditTypes }, { refetch }] = useQuery(getAuditTypes, {})
+  // const [updateAuditTypesMutation] = useMutation(updateAuditTypes)
   const tabs = [{ name: "Audits" }, { name: "Locations" }]
 
   return (
@@ -26,7 +26,7 @@ export const Admin = () => {
       <Tabs tabs={tabs}>
         {({ currentIndex }) => {
           if (currentIndex === 0) {
-            return <AuditTypesAdmin auditTypes={auditTypes} />
+            return <AuditTypesAdmin />
           }
           if (currentIndex === 1) {
             return <LocationTable locations={locations} admin={true} />

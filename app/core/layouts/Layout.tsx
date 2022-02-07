@@ -149,11 +149,11 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                   console.log(item.href === router.pathname)
                   const anchorClass =
                     item.href == router.pathname
-                      ? "bg-blue-300 text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
+                      ? "bg-blue-500 text-blue-100 group flex items-center px-2 py-2 text-base font-bold rounded-md"
                       : "text-gray-600 hover:bg-blue-100 hover:text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
                   const iconClass =
                     item.href == router.pathname
-                      ? "text-gray-700 mr-3 flex-shrink-0 h-6 w-6"
+                      ? "text-blue-100 mr-3 flex-shrink-0 h-6 w-6"
                       : "text-blue-400 group-hover:text-blue-500 mr-3 flex-shrink-0 h-6 w-6"
                   return (
                     <a key={item.name} href={item.href} className={anchorClass}>

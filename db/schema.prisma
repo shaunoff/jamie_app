@@ -120,6 +120,7 @@ model AuditType {
   updatedAt    DateTime       @updatedAt
   name         String
   description  String
+  position     Int
   auditSection AuditSection[]
 }
 
@@ -128,7 +129,7 @@ model AuditSection {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   name         String
-  number       Int?
+  number       Int
   auditType    AuditType     @relation(fields: [auditTypeId], references: [id])
   auditTypeId  Int
   auditActions AuditAction[]
@@ -139,7 +140,7 @@ model AuditAction {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   name           String
-  number         Int?
   auditSection   AuditSection @relation(fields: [auditSectionId], references: [id])
   auditSectionId Int
+  position       Int
 }

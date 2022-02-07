@@ -4,8 +4,8 @@ import { z } from "zod"
 
 const UpdateAction = z.object({
   id: z.number(),
-  title: z.string(),
-  number: z.number(),
+  name: z.string(),
+  position: z.number(),
   auditSectionId: z.number(),
 })
 

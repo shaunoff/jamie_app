@@ -9,48 +9,16 @@ import {
   DraggingStyle,
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd"
+import { AuditTypes } from "./AuditTypesAdmin"
+import AuditSectionList from "./AuditSectionList"
 
-export interface StackedListObject {
-  name: string
-  description: string
-  position: number
-  renderPanel: () => React.ReactNode
-}
-interface StackedListProps {
-  list: StackedListObject[]
-  onUpdate: (arg: StackedListObject[]) => any
+interface AuditTypesListProps {
+  auditTypes: AuditTypes
+  updateAuditTypes: (AuditTypes: AuditTypes) => void
 }
 
-const reorder = (list: StackedListObject[], startIndex: number, endIndex: number) => {
-  const result = Array.from(list)
-
-  const [removed] = result.splice(startIndex, 1)
-  if (!removed) {
-    return list
-  }
-  result.splice(endIndex, 0, removed)
-  // Add new positions to array
-  return result.map((item, index) => ({ ...item, position: index }))
-}
-
-const getItemStyle = (
-  isDragging: boolean,
-  draggableStyle?: DraggableProvidedDraggableProps["style"]
-): React.CSSProperties => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  // styles we need to apply on draggables
-  ...draggableStyle,
-})
-
-const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
-  //background: isDraggingOver ? "lightblue" : "lightgrey",
-  //padding: grid,
-  //width: 250,
-})
-
-const StackedList: React.FC<StackedListProps> = ({ list, onUpdate }) => {
-  const [items, setItems] = useState<StackedListObject[]>(list)
+const AuditTypesList: React.FC<AuditTypesListProps> = ({ auditTypes, updateAuditTypes }) => {
+  const [items, setItems] = useState<AuditTypes>(auditTypes)
 
   const onDragEnd = (result: DropResult) => {
     // dropped outside the list
@@ -59,8 +27,8 @@ const StackedList: React.FC<StackedListProps> = ({ list, onUpdate }) => {
     }
 
     const reordered = reorder(items, result.source.index, result.destination.index)
-    console.log("gfshjdfghjdsgfhjdsgj")
-    onUpdate(reordered)
+    console.log("should update", reordered)
+    updateAuditTypes(reordered)
     setItems(reordered)
   }
 
@@ -122,7 +90,14 @@ const StackedList: React.FC<StackedListProps> = ({ list, onUpdate }) => {
 
                           {open && (
                             <div>
-                              <Disclosure.Panel>{item.renderPanel()}</Disclosure.Panel>
+                              <Disclosure.Panel>
+                                <AuditSectionList
+                                  auditTypeId={item.id}
+                                  auditTypes={auditTypes}
+                                  auditSection={item.auditSection}
+                                  updateAuditTypes={updateAuditTypes}
+                                />
+                              </Disclosure.Panel>
                             </div>
                           )}
                         </>
@@ -140,4 +115,32 @@ const StackedList: React.FC<StackedListProps> = ({ list, onUpdate }) => {
   )
 }
 
-export default StackedList
+export default AuditTypesList
+
+const reorder = (list: AuditTypes, startIndex: number, endIndex: number) => {
+  const result = Array.from(list)
+
+  const [removed] = result.splice(startIndex, 1)
+  if (!removed) {
+    return list
+  }
+  result.splice(endIndex, 0, removed)
+  // Add new positions to array
+  return result.map((item, index) => ({ ...item, position: index }))
+}
+
+const getItemStyle = (
+  isDragging: boolean,
+  draggableStyle?: DraggableProvidedDraggableProps["style"]
+): React.CSSProperties => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  // styles we need to apply on draggables
+  ...draggableStyle,
+})
+
+const getListStyle = (isDraggingOver: boolean): React.CSSProperties => ({
+  //background: isDraggingOver ? "lightblue" : "lightgrey",
+  //padding: grid,
+  //width: 250,
+})

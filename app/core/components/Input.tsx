@@ -21,7 +21,7 @@ const input = {
   label: "block text-base text-gray-500 font-bold",
   disabled: "opacity-50",
   container: {
-    base: "mt-1",
+    base: "mt-1 w-full",
     error: "relative rounded-md shadow-sm",
     valid: "relative rounded-md shadow-sm",
   },
@@ -67,10 +67,12 @@ const TextField = forwardRef<HTMLInputElement, Props>(function TextField(props: 
   const disabledStyle = clsx(disabled && input.disabled)
 
   return (
-    <div className={disabledStyle}>
-      <label htmlFor={name} className={labelStyle}>
-        {label}
-      </label>
+    <div className={`w-full ${disabledStyle}`}>
+      {!!label && (
+        <label htmlFor={name} className={labelStyle}>
+          {label}
+        </label>
+      )}
       <div className={containerStyle}>
         <input {...props} className={inputStyle} ref={ref} type={type} onChange={onChange} />
         {(error || valid) && (
