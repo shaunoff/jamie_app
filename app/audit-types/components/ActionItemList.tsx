@@ -8,9 +8,10 @@ import {
   DraggingStyle,
   DraggableProvidedDraggableProps,
 } from "react-beautiful-dnd"
-import { CheckIcon, DotsVerticalIcon, PencilIcon, XIcon } from "@heroicons/react/outline"
+import { CheckIcon, DotsVerticalIcon, PencilIcon, TrashIcon, XIcon } from "@heroicons/react/outline"
 import { useMutation, useQuery } from "blitz"
 import partition from "app/shared/utils/partition"
+import deleteAction from "app/actions/mutations/deleteAction"
 
 import Input from "app/core/components/Input"
 import { AuditTypes } from "./AuditTypesAdmin"
@@ -28,6 +29,7 @@ const ActionItemList: React.FC<ActionItemListProps> = ({
   updateAuditTypes,
   auditTypeId,
 }) => {
+  const [deleteActionMutation] = useMutation(deleteAction)
   const [activeType, otherTypes] = partition(
     auditTypes,
     (auditType) => auditType.id === auditTypeId
@@ -72,6 +74,21 @@ const ActionItemList: React.FC<ActionItemListProps> = ({
     updateAuditTypes(allTypes)
   }
 
+  const handleDelete = async (item: AuditAction) => {
+    const [activeAction, otherActions] = partition(
+      auditActions,
+      (auditAction) => auditAction.id === item.id
+    )
+    await deleteActionMutation({ id: item.id })
+
+    const allActions = [...otherActions].map((item, index) => ({ ...item, position: index }))
+    const newSection = { ...currentSection, auditActions: allActions }
+    const allSections = [newSection, ...otherSections]
+    const newType = { ...currentType, auditSection: allSections }
+    const allTypes = [newType, ...otherTypes]
+    updateAuditTypes(allTypes)
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="auditAction">
@@ -86,6 +103,7 @@ const ActionItemList: React.FC<ActionItemListProps> = ({
                 disableDrag={disableDrag}
                 setDisableDrag={setDisableDrag}
                 handleNameChange={handleNameChange}
+                handleDelete={handleDelete}
               />
             ))}
             {provided.placeholder}
@@ -105,10 +123,11 @@ interface ActionItemProps {
   disableDrag: boolean
   setDisableDrag: React.Dispatch<React.SetStateAction<boolean>>
   handleNameChange: (arg: { inputValue: string; item: AuditAction }) => void
+  handleDelete: (arg: AuditAction) => void
 }
 
 const ActionItem: React.FC<ActionItemProps> = React.memo(
-  ({ index, item, sectionNumber, disableDrag, setDisableDrag, handleNameChange }) => {
+  ({ index, item, sectionNumber, disableDrag, setDisableDrag, handleNameChange, handleDelete }) => {
     const [inputValue, setInputValue] = useState<string>(item.name)
     const [isEditMode, setIsEditMode] = useState<boolean>(false)
 
@@ -171,17 +190,23 @@ const ActionItem: React.FC<ActionItemProps> = React.memo(
                   />
                 </div>
               ) : (
-                <PencilIcon
-                  className={`h-5 w-5 text-blue-500  flex-shrink-0 ml-auto cursor-pointer ${
-                    disableDrag && "opacity-30"
-                  }`}
-                  onClick={() => {
-                    if (!disableDrag) {
-                      setIsEditMode(!isEditMode)
-                      setDisableDrag(true)
-                    }
-                  }}
-                />
+                <div className="flex ml-auto">
+                  <PencilIcon
+                    className={`h-5 w-5 text-blue-500  flex-shrink-0 mr-3 cursor-pointer ${
+                      disableDrag && "opacity-30"
+                    }`}
+                    onClick={() => {
+                      if (!disableDrag) {
+                        setIsEditMode(!isEditMode)
+                        setDisableDrag(true)
+                      }
+                    }}
+                  />
+                  <TrashIcon
+                    onClick={() => handleDelete(item)}
+                    className={`h-5 w-5 text-gray-500  flex-shrink-0 ml-auto cursor-pointer`}
+                  />
+                </div>
               )}
               {/* <ActionText name={item.name} /> */}
             </div>

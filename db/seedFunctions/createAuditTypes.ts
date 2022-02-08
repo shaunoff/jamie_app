@@ -102,16 +102,16 @@ const createAuditTypes = async () => {
           name: "Cooking",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure food is thoroughly cooked to a core temperature of 750C, recording temperatures and maintaining records for 12 months.",
             },
-            { position: 2, name: "Ensure foods are not contaminated after cooking." },
+            { position: 1, name: "Ensure foods are not contaminated after cooking." },
             {
-              position: 3,
+              position: 2,
               name: "Ensure foods to be cooked are chilled and stored <80C within 90 minutes. Cook: Chill <50C within 90 minutes.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Ensure when reheating foods that they are thoroughly heated to a core temperature of 820C for 2 mins in Scotland and 750C for 2 mins in the rest of UK. Record temperatures and maintaining records for 12 months.",
             },
           ],
@@ -121,16 +121,16 @@ const createAuditTypes = async () => {
           name: "Service",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure foods kept hot before service are held at a temperature in excess of 630C.",
             },
             {
-              position: 2,
+              position: 1,
               name: "Ensure foods to be served cold are kept at a temperature below <80C.",
             },
-            { position: 3, name: "Ensure that foods held for service are not contaminated." },
+            { position: 2, name: "Ensure that foods held for service are not contaminated." },
             {
-              position: 4,
+              position: 3,
               name: "Ensure that containers in which prepared foods are placed are in a clean and sanitised condition.",
             },
           ],
@@ -140,24 +140,24 @@ const createAuditTypes = async () => {
           name: "Cleaning",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure that a comprehensive cleaning schedule and cleaning materials chart are maintained.",
             },
             {
-              position: 2,
+              position: 1,
               name: "Ensure that suitable cleaning materials and chemicals are available for use, suitably stored and utilised to prevent product contamination.",
             },
-            { position: 3, name: "Ensure that cleaning equipment is kept in a clean condition." },
+            { position: 2, name: "Ensure that cleaning equipment is kept in a clean condition." },
             {
-              position: 4,
+              position: 3,
               name: "Ensure that adequate protective clothing is available for staff when carrying out cleaning tasks.",
             },
             {
-              position: 5,
+              position: 4,
               name: "Ensure that all food and hand contact surfaces are maintained in a clean condition.",
             },
             {
-              position: 6,
+              position: 5,
               name: "Ensure that all other areas are maintained in a clean condition.",
             },
           ],
@@ -167,20 +167,20 @@ const createAuditTypes = async () => {
           name: "Pest Control",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Employ an Environmental Health approved contractor to carry out surveys and treatments, in respect of pests.",
             },
-            { position: 2, name: "Maintain the premises free of pests." },
+            { position: 1, name: "Maintain the premises free of pests." },
             {
-              position: 3,
+              position: 2,
               name: "Maintain the premises pest proof so that pests cannot gain entry.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Ensure all refuse is removed from kitchen as quickly as possible, is never left in such areas overnight and is stored correctly prior to collection in a manner to prevent attraction of pests.",
             },
             {
-              position: 5,
+              position: 4,
               name: "Ensure that electric fly killing devices are in suitable locations, kept clean and in working order.",
             },
           ],
@@ -190,16 +190,16 @@ const createAuditTypes = async () => {
           name: "Personnel",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Food handlers, prior to employment, to complete a medical questionnaire which is to be examined by a competent person to determine the suitability of the applicant for food handling tasks.",
             },
-            { position: 2, name: "Persons returning to work after sickness, to be assessed." },
+            { position: 1, name: "Persons returning to work after sickness, to be assessed." },
             {
-              position: 3,
+              position: 2,
               name: "Food handlers to be provided with and wear clean protective clothing which completely covers their ordinary clothing and prevents contamination of food.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Adequate first aid facilities are to be readily available including the provision and use of blue waterproof plasters to cover any cut or wound.",
             },
           ],
@@ -209,19 +209,19 @@ const createAuditTypes = async () => {
           name: "Management Control",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure the premises and equipment are maintained in a good state of repair, especially surfaces and equipment that come into contact with food.",
             },
             {
-              position: 2,
+              position: 1,
               name: "Ensure that temperature-controlled areas, rooms and equipment are maintained in a good working order.",
             },
             {
-              position: 3,
+              position: 2,
               name: "Ensure that all probe thermometers and other temperature measuring devices are calibrated at least annually.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Ensure that visitors, maintenance workers, observe appropriate hygiene practices.",
             },
           ],
@@ -238,19 +238,19 @@ const createAuditTypes = async () => {
           name: "none",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure the premises and equipment are maintained in a good state of repair, especially surfaces and equipment that come into contact with food.",
             },
             {
-              position: 2,
+              position: 1,
               name: "Ensure that temperature-controlled areas, rooms and equipment are maintained in a good working order.",
             },
             {
-              position: 3,
+              position: 2,
               name: "Ensure that all probe thermometers and other temperature measuring devices are calibrated at least annually.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Ensure that visitors, maintenance workers, observe appropriate hygiene practices.",
             },
           ],
@@ -267,19 +267,19 @@ const createAuditTypes = async () => {
           name: "none",
           actions: [
             {
-              position: 1,
+              position: 0,
               name: "Ensure the premises and equipment are maintained in a good state of repair, especially surfaces and equipment that come into contact with food.",
             },
             {
-              position: 2,
+              position: 1,
               name: "Ensure that temperature-controlled areas, rooms and equipment are maintained in a good working order.",
             },
             {
-              position: 3,
+              position: 2,
               name: "Ensure that all probe thermometers and other temperature measuring devices are calibrated at least annually.",
             },
             {
-              position: 4,
+              position: 3,
               name: "Ensure that visitors, maintenance workers, observe appropriate hygiene practices.",
             },
           ],
