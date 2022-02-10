@@ -14,10 +14,12 @@ import {
   LocationMarkerIcon,
   CogIcon,
   XIcon,
+  ClipboardListIcon,
 } from "@heroicons/react/outline"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
+  { name: "Create Audit", href: "/audits/new", icon: ClipboardListIcon },
   { name: "Locations", href: "/locations", icon: LocationMarkerIcon },
   { name: "Admin", href: "/admin", icon: CogIcon },
   // { name: "Team", href: "#", icon: UsersIcon, current: false },

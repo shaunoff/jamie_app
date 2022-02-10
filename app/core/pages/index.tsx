@@ -11,6 +11,7 @@ import TextArea from "app/core/components/TextArea"
 import { EmojiHappyIcon } from "@heroicons/react/outline"
 import { EmojiSadIcon } from "@heroicons/react/outline"
 import { ExclamationCircleIcon } from "@heroicons/react/outline"
+import ButtonGroup from "app/audits/components/ButtonGroup"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -59,29 +60,7 @@ const UserInfo = () => {
                                 <p className="block text-base text-gray-500 font-bold">
                                   Assessment
                                 </p>
-                                <div className="mt-1 relative z-0 inline-flex shadow-sm rounded-md">
-                                  <button
-                                    type="button"
-                                    className={`bg-green-50"
-                                  } relative inline-flex items-center px-6 py-4 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500`}
-                                  >
-                                    <EmojiHappyIcon className="h-12 w-12 text-green-400" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className={`bg-yellow-50"
-                                  } relative inline-flex items-center px-6 py-4  border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500`}
-                                  >
-                                    <ExclamationCircleIcon className="h-12 w-12 text-yellow-400" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className={`
-                                  relative inline-flex items-center px-6 py-4 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500`}
-                                  >
-                                    <EmojiSadIcon className="h-12 w-12 text-red-400" />
-                                  </button>
-                                </div>
+                                <ButtonGroup />
                               </div>
                             </div>
                           </div>
