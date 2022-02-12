@@ -19,33 +19,33 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ value, onChange }) => {
         onClick={() => onChange(2)}
         type="button"
         className={`${baseButtonStyle} bg-white rounded-l-md ${
-          value == 2 ? "border-blue-400" : "border border-gray-300"
+          value === 2 ? "border-blue-400" : "border border-gray-300"
         }`}
       >
         <EmojiHappyIcon
-          className={`${baseIconStyle} ${value == 2 ? "text-blue-400" : "text-gray-200"}`}
+          className={`${baseIconStyle} ${value === 2 ? "text-blue-400" : "text-gray-200"}`}
         />
       </button>
       <button
         onClick={() => onChange(1)}
         type="button"
         className={`${baseButtonStyle} bg-white ${
-          value == 1 ? "border-blue-400" : "border border-gray-300"
+          value === 1 ? "border-blue-400" : "border border-gray-300"
         }`}
       >
         <ExclamationCircleIcon
-          className={`${baseIconStyle} ${value == 1 ? "text-blue-400" : "text-gray-200"}`}
+          className={`${baseIconStyle} ${value === 1 ? "text-blue-400" : "text-gray-200"}`}
         />
       </button>
       <button
         onClick={() => onChange(0)}
         type="button"
         className={`${baseButtonStyle} bg-white rounded-r-md ${
-          value == 0 ? "border-blue-400" : "border border-gray-300"
+          value === 0 ? "border-blue-400" : "border border-gray-300"
         }`}
       >
         <EmojiSadIcon
-          className={`${baseIconStyle} ${value == 0 ? "text-blue-400" : "text-gray-200"}`}
+          className={`${baseIconStyle} ${value === 0 ? "text-blue-400" : "text-gray-200"}`}
         />
       </button>
     </div>
