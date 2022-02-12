@@ -12,11 +12,11 @@ export const LabeledInputField: React.FC<SelectMenuFieldProps> = ({ name, items 
   const {
     input,
     meta: { touched, error, submitError, submitting },
-  } = useField<string>(name)
+  } = useField<{ name: string; id: string | number }>(name)
 
   const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
-  return <SelectMenu items={items} onChange={input.onChange} />
+  return <SelectMenu items={items} onChange={input.onChange} value={input.value} />
 }
 
 export default LabeledInputField

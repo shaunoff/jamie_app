@@ -6,11 +6,23 @@ import getLocations from "app/locations/queries/getLocations"
 import getAuditTypes from "app/audit-types/queries/getAuditTypes"
 
 const NewAudit: BlitzPage = () => {
-  const [{ locations, hasMore }] = useQuery(getLocations, {
-    orderBy: { id: "asc" },
-  })
+  const [{ locations, hasMore }] = useQuery(
+    getLocations,
+    {
+      orderBy: { id: "asc" },
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  )
 
-  const [{ auditTypes }] = useQuery(getAuditTypes, {})
+  const [{ auditTypes }] = useQuery(
+    getAuditTypes,
+    {},
+    {
+      refetchOnWindowFocus: false,
+    }
+  )
 
   //  console.log(auditTypes)
   // const router = useRouter()

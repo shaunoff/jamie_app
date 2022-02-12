@@ -18,8 +18,12 @@ export const ButtonGroupField: React.FC<LabeledInputFieldProps> = ({ name, field
 
   return (
     <div>
-      <ButtonGroup value={input.value} onChange={input.onChange} />
-      {error && typeof error === "string" && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      <ButtonGroup
+        value={input.value}
+        onChange={input.onChange}
+        error={touched && normalizedError}
+      />
+      {touched && normalizedError && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   )
 }

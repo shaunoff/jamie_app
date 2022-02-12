@@ -1,6 +1,6 @@
 import { Head, BlitzLayout, Image, useRouter } from "blitz"
 import sprightly from "public/logo_long.png"
-
+import { Toaster } from "react-hot-toast"
 import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import {
@@ -214,6 +214,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
           </main>
         </div>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   )
 }

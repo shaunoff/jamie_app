@@ -39,13 +39,16 @@ const AuditTypeRadioGroup: React.FC<AuditTypeRadioGroupProps> = ({ auditTypes, n
       value={input.value.name}
       onChange={(val) => {
         const auditType = auditTypes.find((auditType) => auditType.name === val)
-        input.onChange(auditType)
+        if (auditType) {
+          const { id, name, position, auditSection } = auditType
+          input.onChange({ id, name, position, auditSection })
+        }
       }}
-      className="mt-24"
+      className="mt-8"
     >
       <RadioGroup.Label className="text-xl font-bold text-gray-600">Audit Type</RadioGroup.Label>
 
-      <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+      <div className="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
         {normalizedAuditTypes.map((auditType) => (
           <RadioGroup.Option
             key={auditType.name}
