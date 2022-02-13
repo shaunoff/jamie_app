@@ -7,9 +7,14 @@ const CreateAudit = z.object({
   locationId: z.number(),
 })
 
-export default resolver.pipe(resolver.zod(CreateAudit), resolver.authorize(), async (input) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const audit = await db.audit.create({ data: input })
+export default resolver.pipe(
+  resolver.zod(CreateAudit),
+  resolver.authorize(),
+  //TODO: chnage typing
+  async (input: any) => {
+    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    const audit = await db.audit.create({ data: input })
 
-  return audit
-})
+    return audit
+  }
+)

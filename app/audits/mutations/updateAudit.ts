@@ -10,7 +10,7 @@ const UpdateAudit = z.object({
 export default resolver.pipe(
   resolver.zod(UpdateAudit),
   resolver.authorize(),
-  async ({ id, ...data }) => {
+  async ({ id, ...data }: any) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const audit = await db.audit.update({ where: { id }, data })
 
