@@ -8,13 +8,17 @@ import {
   PencilAltIcon,
 } from "@heroicons/react/outline"
 
+//figure out how to infer the nested types
 interface AuditTableProps {
-  audits: (Audit & {
-    auditType: AuditType
-    location: Location
-    date: Day
-    auditAssessments: AuditAssessment[]
-  })[]
+  audits: (
+    | (Audit & {
+        auditType: AuditType
+        location: Location
+        date: Day
+        auditAssessments: AuditAssessment[]
+      })
+    | any
+  )[]
 }
 
 const headCells = [
