@@ -44,7 +44,6 @@ const AuditTypeRadioGroup: React.FC<AuditTypeRadioGroupProps> = ({ auditTypes, n
           input.onChange({ id, name, position, auditSection })
         }
       }}
-      className="mt-8"
     >
       <RadioGroup.Label className="text-xl font-bold text-gray-600">Audit Type</RadioGroup.Label>
 

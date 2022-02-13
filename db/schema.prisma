@@ -81,6 +81,7 @@ model Day {
   mmyyyy               String  @db.Char(6)
   mmddyyyy             String  @db.Char(8)
   isWeekend            Boolean
+  Audit                Audit[]
 }
 
 model Template {
@@ -112,6 +113,10 @@ model Audit {
   text       String
   location   Location @relation(fields: [locationId], references: [id])
   locationId Int
+  date       Day      @relation(fields: [dateId], references: [id])
+  dateId     Int
+  assessmnet Int
+  comment    String
 }
 
 model AuditType {

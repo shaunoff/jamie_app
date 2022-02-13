@@ -14,7 +14,7 @@ import ButtonGroup from "./ButtonGroup"
 import ButtonGroupField from "./ButtonGroupField"
 import { z } from "zod"
 import SelectMenuField from "app/shared/components/SelectMenuField"
-import { Location } from "db"
+import { Location, Day } from "db"
 import { useState } from "react"
 import RadioGroup from "./RadioGroup"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
@@ -30,18 +30,24 @@ import { AuditFormSchema } from "../validations"
 interface AuditFormProps {
   locations: Location[]
   auditTypes: AuditTypes
+  months: Day[]
 }
 
-export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes }) => {
+export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months }) => {
   const onSubmit = (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
     console.log("passed validation", vals)
     Notification({ locationName: vals.location.name, auditType: vals.auditType.name })
     form.reset()
   }
+  const normalizedMonths = months.map((month) => ({
+    id: month.id,
+    name: `${month.monthName}, ${month.year}`,
+  }))
+  const defaultMonth = normalizedMonths[1]
   return (
     <div>
       <FinalForm
-        initialValues={{ auditType: {} }}
+        initialValues={{ auditType: {}, month: defaultMonth }}
         validate={(vals) => validateZodSchema(AuditFormSchema)(vals)}
         onSubmit={onSubmit}
         render={({ handleSubmit, submitting, submitError, values, errors }) => {
@@ -52,12 +58,20 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes }) =
           return (
             <form onSubmit={handleSubmit} className="form">
               <>
-                <p className="block text-xl text-gray-600 font-bold mb-2">Location</p>
-                <SelectMenuField items={locations} name="location" />
+                <div className="flex flex-wrap">
+                  <div className="w-full md:w-2/3 md:pr-4 mb-8">
+                    <p className="block text-xl text-gray-600 font-bold mb-2">Location</p>
+                    <SelectMenuField items={locations} name="location" />
+                  </div>
+                  <div className="w-full md:w-1/3 mb-8">
+                    <p className="block text-xl text-gray-600 font-bold mb-2">Date</p>
+                    <SelectMenuField items={normalizedMonths} name="month" />
+                  </div>
+                </div>
+
                 {values.location && <RadioGroup auditTypes={auditTypes} name="auditType" />}
                 {selectedAuditType && (
                   <>
-                    <div className="h-8" />
                     <p className="block text-xl text-gray-600 font-bold">Action Items</p>
                     <ul>
                       {selectedAuditType.auditSection.map((section, sectionIndex) => (

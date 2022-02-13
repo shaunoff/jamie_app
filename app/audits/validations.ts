@@ -5,6 +5,11 @@ export const LocationSchema = z.object({
   name: z.string(),
 })
 
+export const MonthSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+})
+
 export const AuditActionSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -35,4 +40,5 @@ export const AuditTypeSchema = z.object({
 export const AuditFormSchema = z.object({
   location: LocationSchema,
   auditType: AuditTypeSchema,
+  month: MonthSchema,
 })

@@ -4,6 +4,8 @@ import React, { useState, Suspense } from "react"
 import AuditForm from "../../components/AuditForm"
 import getLocations from "app/locations/queries/getLocations"
 import getAuditTypes from "app/audit-types/queries/getAuditTypes"
+import getDays from "app/days/queries/getDays"
+import createAuditMonthsParams from "../../lib/createAuditMonthsParams"
 
 const NewAudit: BlitzPage = () => {
   const [{ locations, hasMore }] = useQuery(
@@ -24,11 +26,16 @@ const NewAudit: BlitzPage = () => {
     }
   )
 
+  // get the first day of the previous, current and next Months
+  const [{ days: months }] = useQuery(getDays, {
+    where: createAuditMonthsParams(),
+  })
+
   //  console.log(auditTypes)
   // const router = useRouter()
   // const [createTemplateMutation] = useMutation(createTemplate)
 
-  return <AuditForm locations={locations} auditTypes={auditTypes} />
+  return <AuditForm locations={locations} auditTypes={auditTypes} months={months} />
 }
 
 const NewAuditPage: BlitzPage = () => {
