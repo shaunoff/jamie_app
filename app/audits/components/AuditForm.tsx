@@ -1,21 +1,10 @@
-import {
-  AuthenticationError,
-  Link,
-  useMutation,
-  Routes,
-  PromiseReturnType,
-  validateZodSchema,
-} from "blitz"
-import { LabeledInputField } from "app/core/components/LabeledInputField"
+import { useMutation, validateZodSchema } from "blitz"
 import { LabeledTextAreaField } from "app/core/components/LabeledTextAreaField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
-import login from "app/auth/mutations/login"
-import ButtonGroup from "./ButtonGroup"
+
 import ButtonGroupField from "./ButtonGroupField"
 import { z } from "zod"
 import SelectMenuField from "app/shared/components/SelectMenuField"
 import { Location, Day } from "db"
-import { useState } from "react"
 import RadioGroup from "./RadioGroup"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
 import Notification from "app/shared/components/Notification"
@@ -26,6 +15,7 @@ import normalizedAuditTypeData from "app/audit-types/lib/normalizeAuditData"
 import Button from "app/core/components/Button"
 import { FormApi } from "final-form"
 import { AuditFormSchema } from "../validations"
+import createAudit from "app/audits/mutations/createAudit"
 
 interface AuditFormProps {
   locations: Location[]
@@ -34,8 +24,11 @@ interface AuditFormProps {
 }
 
 export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months }) => {
-  const onSubmit = (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
+  const [createAuditMutation] = useMutation(createAudit)
+
+  const onSubmit = async (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
     console.log("passed validation", vals)
+    createAuditMutation(vals)
     Notification({ locationName: vals.location.name, auditType: vals.auditType.name })
     form.reset()
   }

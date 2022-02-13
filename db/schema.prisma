@@ -107,45 +107,66 @@ model Location {
 }
 
 model Audit {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  text       String
-  location   Location @relation(fields: [locationId], references: [id])
-  locationId Int
-  date       Day      @relation(fields: [dateId], references: [id])
-  dateId     Int
-  assessmnet Int
-  comment    String
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  comment          String?
+  location         Location          @relation(fields: [locationId], references: [id])
+  locationId       Int
+  date             Day               @relation(fields: [dateId], references: [id])
+  dateId           Int
+  auditType        AuditType         @relation(fields: [auditTypeId], references: [id])
+  auditTypeId      Int
+  auditAssessments AuditAssessment[]
+}
+
+model AuditAssessment {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  assessment  Int
+  comment     String?
+  audit       Audit        @relation(fields: [auditId], references: [id])
+  auditId     Int
+  section     AuditSection @relation(fields: [sectionId], references: [id])
+  sectionId   Int
+  action      AuditAction  @relation(fields: [actionId], references: [id])
+  actionId    Int
+  auditType   AuditType    @relation(fields: [auditTypeId], references: [id])
+  auditTypeId Int
 }
 
 model AuditType {
-  id           Int            @id @default(autoincrement())
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  name         String
-  description  String
-  position     Int
-  auditSection AuditSection[]
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  name             String
+  description      String
+  position         Int
+  auditSection     AuditSection[]
+  audits           Audit[]
+  auditAssessments AuditAssessment[]
 }
 
 model AuditSection {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  name         String
-  number       Int
-  auditType    AuditType     @relation(fields: [auditTypeId], references: [id])
-  auditTypeId  Int
-  auditActions AuditAction[]
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  name             String
+  number           Int
+  auditType        AuditType         @relation(fields: [auditTypeId], references: [id])
+  auditTypeId      Int
+  auditActions     AuditAction[]
+  auditAssessments AuditAssessment[]
 }
 
 model AuditAction {
-  id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  name           String
-  auditSection   AuditSection @relation(fields: [auditSectionId], references: [id])
-  auditSectionId Int
-  position       Int
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  name             String
+  auditSection     AuditSection      @relation(fields: [auditSectionId], references: [id])
+  auditSectionId   Int
+  position         Int
+  auditAssessments AuditAssessment[]
 }

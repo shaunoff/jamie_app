@@ -19,6 +19,7 @@ import {
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
+  { name: "Completed Audits", href: "/audits", icon: CogIcon },
   { name: "Create Audit", href: "/audits/new", icon: ClipboardListIcon },
   { name: "Locations", href: "/locations", icon: LocationMarkerIcon },
   { name: "Admin", href: "/admin", icon: CogIcon },

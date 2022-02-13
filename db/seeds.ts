@@ -11,8 +11,8 @@ import db from "./index"
  * realistic data.
  */
 const seed = async () => {
-  await createAuditTypes()
-  await createLocations()
+  //await createAuditTypes()
+  //await createLocations()
   await createDates()
   // const locations = await db.location.findMany()
   // console.log(locations)

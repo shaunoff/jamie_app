@@ -2,11 +2,11 @@ import { paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
 interface GetAuditsInput
-  extends Pick<Prisma.AuditFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+  extends Pick<Prisma.AuditFindManyArgs, "where" | "orderBy" | "skip" | "take" | "include"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetAuditsInput) => {
+  async ({ where, orderBy, skip = 0, take = 100, include }: GetAuditsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: audits,
@@ -17,7 +17,7 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.audit.count({ where }),
-      query: (paginateArgs) => db.audit.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) => db.audit.findMany({ ...paginateArgs, where, orderBy, include }),
     })
 
     return {
