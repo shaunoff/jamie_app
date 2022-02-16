@@ -8,10 +8,10 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ where, orderBy, include }: GetAuditsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const audits = await db.audit.findMany({ where, orderBy, include })
+    const auditAssessments = await db.auditAssessment.findMany({ where, orderBy, include })
 
     return {
-      audits,
+      auditAssessments,
     }
   }
 )

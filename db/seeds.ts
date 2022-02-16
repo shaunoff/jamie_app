@@ -1,6 +1,7 @@
 import createDates from "./seedFunctions/createDates"
 import createAuditTypes from "./seedFunctions/createAuditTypes"
 import createLocations from "./seedFunctions/createLocations"
+import createAudits from "./seedFunctions/createAudits"
 import db from "./index"
 //const fs = require("fs")
 /*
@@ -13,7 +14,9 @@ import db from "./index"
 const seed = async () => {
   //await createAuditTypes()
   //await createLocations()
-  await createDates()
+  //await createDates()
+  await createAudits()
+  //
   // const locations = await db.location.findMany()
   // console.log(locations)
   // //createDates()

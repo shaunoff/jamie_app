@@ -92,18 +92,19 @@ model Template {
 }
 
 model Location {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  address1  String
-  address2  String?
-  city      String
-  county    String?
-  postCode  String
-  poc       String?
-  contact   String?
-  Audit     Audit[]
+  id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  name             String
+  address1         String
+  address2         String?
+  city             String
+  county           String?
+  postCode         String
+  poc              String?
+  contact          String?
+  Audit            Audit[]
+  auditAssessments AuditAssessment[]
 }
 
 model Audit {
@@ -134,6 +135,8 @@ model AuditAssessment {
   actionId    Int
   auditType   AuditType    @relation(fields: [auditTypeId], references: [id])
   auditTypeId Int
+  location    Location     @relation(fields: [locationId], references: [id])
+  locationId  Int
 }
 
 model AuditType {
