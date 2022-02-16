@@ -39,6 +39,7 @@ export default resolver.pipe(
           assessment: action.assessment,
           comment: action.comment ?? null,
           sectionId,
+          locationId: location.id,
           actionId: action.id,
           auditTypeId: auditType.id,
         }
