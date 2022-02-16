@@ -14,6 +14,7 @@ const CreateAudit = z.object({
         assessment: z.number(),
         comment: z.string().nullable(),
         sectionId: z.number(),
+        locationId: z.number(),
         actionId: z.number(),
         auditTypeId: z.number(),
       })
