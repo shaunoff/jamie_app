@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { string, z } from "zod"
 
 export const CreateLocation = z.object({
   name: z.string(),
@@ -9,6 +9,7 @@ export const CreateLocation = z.object({
   postCode: z.string(),
   poc: z.string(),
   contact: z.string(),
+  regionId: z.number().optional(),
 })
 
 export const UpdateLocation = z.object({
@@ -21,4 +22,5 @@ export const UpdateLocation = z.object({
   postCode: z.string(),
   poc: z.string(),
   contact: z.string(),
+  regionId: z.number(),
 })

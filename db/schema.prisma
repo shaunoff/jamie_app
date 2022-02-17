@@ -105,6 +105,14 @@ model Location {
   contact          String?
   Audit            Audit[]
   auditAssessments AuditAssessment[]
+  region           Region?           @relation(fields: [regionId], references: [id])
+  regionId         Int?
+}
+
+model Region {
+  id       Int        @id @default(autoincrement())
+  Location Location[]
+  name     String
 }
 
 model Audit {

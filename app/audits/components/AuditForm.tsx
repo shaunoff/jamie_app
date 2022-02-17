@@ -28,15 +28,23 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
 
   const onSubmit = async (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
     console.log("passed validation", vals)
-    createAuditMutation(vals)
-    Notification({ locationName: vals.location.name, auditType: vals.auditType.name })
+    await createAuditMutation(vals)
+    Notification({
+      locationName: locations.find((location) => vals.locationId === location.id)?.name,
+      auditType: vals.auditType.name,
+    })
     form.reset()
   }
   const normalizedMonths = months.map((month) => ({
-    id: month.id,
-    name: `${month.monthName}, ${month.year}`,
+    value: month.id,
+    label: `${month.monthName}, ${month.year}`,
   }))
   const defaultMonth = normalizedMonths[1]
+
+  const normalizedLocations = locations.map((location) => ({
+    value: location.id,
+    label: location.name,
+  }))
   return (
     <div>
       <FinalForm
@@ -54,15 +62,15 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                 <div className="flex flex-wrap">
                   <div className="w-full md:w-2/3 md:pr-4 mb-8">
                     <p className="block text-xl text-gray-600 font-bold mb-2">Location</p>
-                    <SelectMenuField items={locations} name="location" />
+                    <SelectMenuField items={normalizedLocations} name="locationId" />
                   </div>
                   <div className="w-full md:w-1/3 mb-8">
                     <p className="block text-xl text-gray-600 font-bold mb-2">Date</p>
-                    <SelectMenuField items={normalizedMonths} name="month" />
+                    <SelectMenuField items={normalizedMonths} name="monthId" />
                   </div>
                 </div>
 
-                {values.location && <RadioGroup auditTypes={auditTypes} name="auditType" />}
+                {values.locationId && <RadioGroup auditTypes={auditTypes} name="auditType" />}
                 {selectedAuditType && (
                   <>
                     <p className="block text-xl text-gray-600 font-bold">Action Items</p>

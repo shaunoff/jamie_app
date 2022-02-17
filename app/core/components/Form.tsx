@@ -32,6 +32,7 @@ export function Form<S extends z.ZodType<any, any>>({
       validate={validateZodSchema(schema)}
       onSubmit={onSubmit}
       render={({ handleSubmit, submitting, submitError, values, errors }) => {
+        console.log(values, errors)
         return (
           <form onSubmit={handleSubmit} className="form" {...props}>
             {/* Form fields supplied as children are rendered here */}

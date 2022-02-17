@@ -1,9 +1,13 @@
 import { Form, FormProps } from "app/core/components/Form"
 import { LabeledInputField } from "app/core/components/LabeledInputField"
+import SelectMenuField from "app/shared/components/SelectMenuField"
 import { z } from "zod"
 export { FORM_ERROR } from "app/core/components/Form"
+import getRegions from "app/regions/queries/getRegions"
+import { useQuery } from "blitz"
 
 export function LocationForm<S extends z.ZodType<any, any>>(props: FormProps<S>) {
+  const [{ regions }] = useQuery(getRegions, {})
   return (
     <Form<S> {...props}>
       <div className="pt-8">
@@ -37,12 +41,19 @@ export function LocationForm<S extends z.ZodType<any, any>>(props: FormProps<S>)
           <div className="sm:col-span-2">
             <LabeledInputField name="postCode" label="Post Code" placeholder="PostCode" />
           </div>
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-2">
             <LabeledInputField name="poc" label="Point of Contact" placeholder="Point of Contact" />
           </div>
 
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-2">
             <LabeledInputField name="contact" label="Contact Number" placeholder="Contact Number" />
+          </div>
+          <div className="sm:col-span-2">
+            <SelectMenuField
+              name="regionId"
+              items={regions.map((region) => ({ value: region.id, label: region.name }))}
+              label="Region"
+            />
           </div>
         </div>
       </div>

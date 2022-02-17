@@ -88,7 +88,7 @@ const createAudits = async () => {
     })
   })
 
-  //sequence(assessmentPromises)
+  sequence(assessmentPromises)
 }
 
 export default createAudits

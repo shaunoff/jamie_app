@@ -2,66 +2,74 @@ import { Fragment, useState } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid"
 
-interface SelectMenuProps {
-  items: { id: number | string; name: string }[]
+interface SelectMenuProps<T> {
+  items: { value: T; label: string }[]
   onChange: any
-  value: { id: number | string; name: string }
+  value?: T
+  label?: string
 }
 
-const SelectMenu: React.FC<SelectMenuProps> = ({ items, onChange, value }) => {
+const SelectMenu = <T extends unknown>({ items, onChange, value, label }: SelectMenuProps<T>) => {
   return (
-    <Listbox
-      value={value}
-      onChange={(e) => {
-        onChange(e)
-      }}
-    >
-      <div className="relative mt-0">
-        <Listbox.Button className="h-10 relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-          <span className="block truncate">
-            {value?.name ?? <span className="text-gray-400">Select a Location...</span>}
-          </span>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-          </span>
-        </Listbox.Button>
-        <Transition
-          as={Fragment}
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
-            {items.map((item, itemId) => (
-              <Listbox.Option
-                key={itemId}
-                className={({ active }) =>
-                  `${active ? "text-blue-900 bg-blue-100" : "text-gray-900"}
+    <>
+      {!!label && <label className={"block text-base text-gray-500 font-bold mb-1"}>{label}</label>}
+      <Listbox
+        value={value}
+        onChange={(e) => {
+          onChange(e)
+        }}
+      >
+        <div className="relative mt-0">
+          <Listbox.Button className="border border-gray-300 h-10 relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-sm cursor-default sm:text-sm">
+            <span className="block truncate">
+              {(value && items.find((item) => item.value === value))?.label ?? (
+                <span className="text-gray-400">Select a Location...</span>
+              )}
+            </span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
+              {items.map((item, itemId) => (
+                <Listbox.Option
+                  key={itemId}
+                  className={({ active }) =>
+                    `${active ? "text-blue-900 bg-blue-100" : "text-gray-900"}
                           cursor-default select-none relative py-2 pl-10 pr-4`
-                }
-                value={item}
-              >
-                {({ selected, active }) => (
-                  <>
-                    <span className={`${selected ? "font-medium" : "font-normal"} block truncate`}>
-                      {item.name}
-                    </span>
-                    {selected ? (
+                  }
+                  value={item.value}
+                >
+                  {({ selected, active }) => (
+                    <>
                       <span
-                        className={`${active ? "text-blue-600" : "text-blue-600"}
-                                absolute inset-y-0 left-0 flex items-center pl-3`}
+                        className={`${selected ? "font-medium" : "font-normal"} block truncate`}
                       >
-                        <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                        {item.label}
                       </span>
-                    ) : null}
-                  </>
-                )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
-      </div>
-    </Listbox>
+                      {selected ? (
+                        <span
+                          className={`${active ? "text-blue-600" : "text-blue-600"}
+                                absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    </>
   )
 }
 

@@ -29,7 +29,7 @@ export default resolver.pipe(
   resolver.authorize(),
 
   async (input) => {
-    const { auditType, location, month } = input
+    const { auditType, locationId, monthId } = input
 
     const assessments: AssessmentData[] = []
 
@@ -40,7 +40,7 @@ export default resolver.pipe(
           assessment: action.assessment,
           comment: action.comment ?? null,
           sectionId,
-          locationId: location.id,
+          locationId: locationId,
           actionId: action.id,
           auditTypeId: auditType.id,
         }
@@ -50,8 +50,8 @@ export default resolver.pipe(
     //TODO validate and throw error if fail validation
     const data: z.infer<typeof CreateAudit> = {
       auditTypeId: auditType.id,
-      locationId: location.id,
-      dateId: month.id,
+      locationId: locationId,
+      dateId: monthId,
       auditAssessments: {
         create: assessments,
       },

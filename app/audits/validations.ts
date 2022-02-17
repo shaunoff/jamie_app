@@ -38,7 +38,7 @@ export const AuditTypeSchema = z.object({
 
 //todo: move to validations folder
 export const AuditFormSchema = z.object({
-  location: LocationSchema,
+  locationId: z.number(),
   auditType: AuditTypeSchema,
-  month: MonthSchema,
+  monthId: z.number(),
 })

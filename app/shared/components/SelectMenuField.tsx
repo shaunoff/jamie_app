@@ -2,21 +2,26 @@ import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import SelectMenu from "./SelectMenu"
 
-export interface SelectMenuFieldProps {
+export interface SelectMenuFieldProps<T> {
   /** Field name. */
   name: string
-  items: { name: string; id: string | number }[]
+  items: { label: string; value: T }[]
+  label?: string
 }
 
-export const LabeledInputField: React.FC<SelectMenuFieldProps> = ({ name, items }) => {
+export const LabeledInputField = <T extends unknown>({
+  name,
+  items,
+  label,
+}: SelectMenuFieldProps<T>) => {
   const {
     input,
     meta: { touched, error, submitError, submitting },
-  } = useField<{ name: string; id: string | number }>(name)
+  } = useField<T>(name)
 
   const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
-  return <SelectMenu items={items} onChange={input.onChange} value={input.value} />
+  return <SelectMenu items={items} onChange={input.onChange} value={input.value} label={label} />
 }
 
 export default LabeledInputField

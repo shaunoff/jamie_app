@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react"
 import { useRouter, Routes } from "blitz"
-import db, { Location } from "db"
+import db, { Location, Region } from "db"
 import { PencilAltIcon } from "@heroicons/react/outline"
 interface LocationTableProps {
-  locations: Location[]
+  locations: (Location & {
+    region: Region | null
+  })[]
   admin?: boolean
 }
 
@@ -16,9 +18,9 @@ const people = [
   },
 ]
 
-const headCells = ["Name", "Location", "POC", "Contact"]
+const headCells = ["Name", "Region", "Location", "POC", "Contact"]
 
-const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = false }) => {
+const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }) => {
   const router = useRouter()
   return (
     <div>
@@ -60,6 +62,9 @@ const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = false 
                     <tr key={location.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         <h3 className="text-sm font-bold text-gray-800">{location.name}</h3>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <h3 className="text-sm font-bold text-gray-800">{location.region?.name}</h3>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {`${location.address1}, ${location.city}, ${location.postCode}.`}

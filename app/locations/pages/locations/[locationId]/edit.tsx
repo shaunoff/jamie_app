@@ -1,9 +1,11 @@
 import { Suspense } from "react"
+import { z } from "zod"
 import { Head, Link, useRouter, useQuery, useMutation, useParam, BlitzPage, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getLocation from "app/locations/queries/getLocation"
 import updateLocation from "app/locations/mutations/updateLocation"
 import { LocationForm, FORM_ERROR } from "app/locations/components/LocationForm"
+import { UpdateLocation } from "app/locations/validations"
 
 export const EditLocation = () => {
   const router = useRouter()
@@ -33,22 +35,24 @@ export const EditLocation = () => {
           // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
-          // schema={UpdateLocation}
-          initialValues={location}
+          //schema={UpdateLocation as any}
+          //values: z.infer<typeof UpdateLocation>
+          initialValues={location as any}
           onSubmit={async (values) => {
-            try {
-              const updated = await updateLocationMutation({
-                id: location.id,
-                ...values,
-              })
-              await setQueryData(updated)
-              router.push(Routes.ShowLocationPage({ locationId: updated.id }))
-            } catch (error: any) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
+            console.log(values)
+            // try {
+            //   const updated = await updateLocationMutation({
+            //     id: location.id,
+            //     ...values,
+            //   })
+            //   await setQueryData(updated)
+            //   router.push(Routes.ShowLocationPage({ locationId: updated.id }))
+            // } catch (error: any) {
+            //   console.error(error)
+            //   return {
+            //     [FORM_ERROR]: error.toString(),
+            //   }
+            // }
           }}
         />
       </div>
