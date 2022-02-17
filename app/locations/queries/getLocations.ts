@@ -18,7 +18,12 @@ export default resolver.pipe(
       take,
       count: () => db.location.count({ where }),
       query: (paginateArgs) =>
-        db.location.findMany({ ...paginateArgs, where, orderBy, include: { region: true } }),
+        db.location.findMany({
+          ...paginateArgs,
+          where,
+          orderBy,
+          include: { region: true, auditAssessments: true },
+        }),
     })
 
     return {

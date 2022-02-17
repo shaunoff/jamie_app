@@ -1,9 +1,10 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { Image, Link, BlitzPage, useMutation, useQuery, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import getLocations from "app/locations/queries/getLocations"
+import getRegions from "app/regions/queries/getRegions"
 import {
   BarChart,
   Bar,
@@ -15,6 +16,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
+import LocationToggle from "app/core/components/LocationToggle"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -27,7 +29,9 @@ const UserInfo = () => {
       auditAssessments: true,
     },
   })
-  console.log(locations)
+
+  const [{ regions }] = useQuery(getRegions, {})
+
   const data = locations.map(({ name, auditAssessments }: any) => {
     let good = 0
     let satisfactory = 0
@@ -42,18 +46,40 @@ const UserInfo = () => {
       poor,
     }
   })
-  const [one, two, three, ...rest] = data
+
+  const regionData = regions.map((region) => {
+    let good = 0
+    let satisfactory = 0
+    let poor = 0
+    region.Location.map(({ auditAssessments }) => {
+      auditAssessments.forEach((x) =>
+        x.assessment == 2 ? (good += 1) : x.assessment === 1 ? (satisfactory += 1) : (poor += 1)
+      )
+    })
+
+    return {
+      name: region.name,
+      good,
+      satisfactory,
+      poor,
+    }
+  })
+
+  console.log(regionData)
+
   const [logoutMutation] = useMutation(logout)
+  const [type, setType] = useState("region")
 
   if (currentUser) {
     return (
       <div>
-        <div className="w-full h-8/12">
+        <LocationToggle onChange={(e) => setType(e === false ? "region" : "site")} />
+        <div className="w-full h-8/12 border bg-white rounded-md shadow-md">
           <ResponsiveContainer width="99%" height={400}>
             <BarChart
               width={500}
               height={300}
-              data={data}
+              data={type === "region" ? regionData : data}
               margin={{
                 top: 20,
                 right: 30,
@@ -62,7 +88,7 @@ const UserInfo = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" hide={true} />
+              <XAxis dataKey="name" hide={type === "site"} />
               <YAxis />
               <Tooltip />
               <Legend />
