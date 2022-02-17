@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { useRouter, Routes } from "blitz"
+import { useRouter, Routes, useMutation } from "blitz"
 import db, { Location, Region } from "db"
-import { PencilAltIcon } from "@heroicons/react/outline"
+import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline"
+import deleteLocation from "app/locations/mutations/deleteLocation"
+
 interface LocationTableProps {
   locations: (Location & {
     region: Region | null
@@ -22,6 +24,11 @@ const headCells = ["Name", "Region", "Location", "POC", "Contact"]
 
 const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }) => {
   const router = useRouter()
+  const [deleteLocationMutation] = useMutation(deleteLocation, {
+    onSuccess: () => {
+      console.info("Successful Update")
+    },
+  })
   return (
     <div>
       {admin && (
@@ -76,12 +83,16 @@ const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }
                         {location.contact}
                       </td>
                       {admin && (
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
+                        <td className="px-6 py-4 whitespace-nowrap text-right flex">
                           <PencilAltIcon
                             className="text-blue-500 cursor-pointer h-5 w-5"
                             onClick={() =>
                               router.push(Routes.ShowLocationPage({ locationId: location.id }))
                             }
+                          />
+                          <TrashIcon
+                            className="text-red-300 ml-2 cursor-pointer h-5 w-5"
+                            onClick={() => deleteLocationMutation({ id: location.id })}
                           />
                         </td>
                       )}
