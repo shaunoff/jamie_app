@@ -4,6 +4,7 @@ import createLocation from "app/locations/mutations/createLocation"
 import { LocationForm, FORM_ERROR } from "app/locations/components/LocationForm"
 
 import { CreateLocation } from "../../validations"
+import { Suspense } from "react"
 
 const NewLocationPage: BlitzPage = () => {
   const router = useRouter()
@@ -44,7 +45,17 @@ const NewLocationPage: BlitzPage = () => {
   )
 }
 
-NewLocationPage.authenticate = true
-NewLocationPage.getLayout = (page) => <Layout title={"Create New Location"}>{page}</Layout>
+const NewLocation: BlitzPage = () => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NewLocationPage />
+      </Suspense>
+    </div>
+  )
+}
 
-export default NewLocationPage
+NewLocation.authenticate = true
+NewLocation.getLayout = (page) => <Layout title={"Create New Location"}>{page}</Layout>
+
+export default NewLocation
