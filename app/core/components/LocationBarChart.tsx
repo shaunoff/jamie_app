@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Image, useQuery, useLazyQuery } from "blitz"
+import { Image, useQuery } from "blitz"
 import getLocations from "app/locations/queries/getLocations"
 import getRegions from "app/regions/queries/getRegions"
 import {
