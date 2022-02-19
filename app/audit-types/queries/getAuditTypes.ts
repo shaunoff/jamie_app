@@ -40,7 +40,6 @@ export default resolver.pipe(
           },
         }),
     })
-    console.log("waaaaaaaaaa", auditTypes)
     return {
       auditTypes,
       nextPage,

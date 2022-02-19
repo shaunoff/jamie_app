@@ -10,8 +10,24 @@ export default resolver.pipe(
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const audits = await db.audit.findMany({ where, orderBy, include })
 
+    const uniqueDates = new Set<number>()
+    audits.forEach((audit) => uniqueDates.add(audit.dateId))
+
+    const dateIds = Array.from(uniqueDates)
+    const whereQuery = dateIds.map((id) => ({
+      id: {
+        equals: id,
+      },
+    }))
+    const dates = await db.day.findMany({
+      where: {
+        OR: whereQuery,
+      },
+    })
+
     return {
       audits,
+      dates,
     }
   }
 )
