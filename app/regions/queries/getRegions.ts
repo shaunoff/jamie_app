@@ -1,12 +1,14 @@
+import { Region, Location, AuditAssessment } from "@prisma/client"
+import getAuditAssessments from "app/audits/queries/getAuditAssessments"
 import { paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
 interface GetRegionsInput
-  extends Pick<Prisma.RegionFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+  extends Pick<Prisma.RegionFindManyArgs, "where" | "orderBy" | "skip" | "take" | "include"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetRegionsInput) => {
+  async ({ where, orderBy, skip = 0, take = 100, include }: GetRegionsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: regions,
@@ -22,18 +24,16 @@ export default resolver.pipe(
           ...paginateArgs,
           where,
           orderBy,
-          include: {
-            Location: {
-              include: {
-                auditAssessments: true,
-              },
-            },
-          },
+          include: include,
         }),
     })
 
     return {
-      regions,
+      regions: regions as (Region & {
+        Location: (Location & {
+          auditAssessments: AuditAssessment[]
+        })[]
+      })[],
       nextPage,
       hasMore,
       count,

@@ -16,8 +16,8 @@ const seed = async () => {
   //await createAuditTypes()
   //await createLocations()
   //await createDates()
-  //await createAudits()
-  await createRegions()
+  await createAudits()
+  //await createRegions()
   //
   // const locations = await db.location.findMany()
   // console.log(locations)

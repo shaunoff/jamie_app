@@ -70,6 +70,7 @@ const createAudits = async () => {
               actionId: action.id,
               auditTypeId: auditType.id,
               locationId: location.id,
+              monthId,
             }
             assessments.push(assessment)
           })

@@ -4,7 +4,7 @@ import { LabeledTextAreaField } from "app/core/components/LabeledTextAreaField"
 import ButtonGroupField from "./ButtonGroupField"
 import { z } from "zod"
 import SelectMenuField from "app/shared/components/SelectMenuField"
-import { Location, Day } from "db"
+import { Location, Day, Audit, AuditType, AuditSection, AuditAction } from "db"
 import RadioGroup from "./RadioGroup"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
 import Notification from "app/shared/components/Notification"
@@ -21,9 +21,16 @@ interface AuditFormProps {
   locations: Location[]
   auditTypes: AuditTypes
   months: Day[]
+  audit?: Audit & {
+    auditType: AuditType & {
+      auditSection: (AuditSection & {
+        auditActions: AuditAction[]
+      })[]
+    }
+  }
 }
 
-export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months }) => {
+export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months, audit }) => {
   const [createAuditMutation] = useMutation(createAudit)
 
   const onSubmit = async (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
@@ -39,7 +46,11 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
     value: month.id,
     label: `${month.monthName}, ${month.year}`,
   }))
-  const defaultMonth = normalizedMonths[1]
+
+  //Todo: what if the month isnt there?
+  const defaultMonth = audit
+    ? normalizedMonths.find((month) => month.value === audit.dateId)
+    : normalizedMonths[1]
 
   const normalizedLocations = locations.map((location) => ({
     value: location.id,
@@ -48,7 +59,9 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
   return (
     <div>
       <FinalForm
-        initialValues={{ auditType: {}, month: defaultMonth }}
+        initialValues={
+          { ...audit, monthId: audit?.dateId } || { auditType: {}, month: defaultMonth }
+        }
         validate={(vals) => validateZodSchema(AuditFormSchema)(vals)}
         onSubmit={onSubmit}
         render={({ handleSubmit, submitting, submitError, values, errors }) => {

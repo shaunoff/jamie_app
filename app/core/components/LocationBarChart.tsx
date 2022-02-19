@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Image, useQuery } from "blitz"
+import React, { Dispatch, useEffect, useRef, useState } from "react"
+import { Image, Routes, useQuery, useRouter } from "blitz"
 import getLocations from "app/locations/queries/getLocations"
 import getRegions from "app/regions/queries/getRegions"
 import {
@@ -23,13 +23,62 @@ import SelectMenu from "app/shared/components/SelectMenu"
 
 const LocationBarChart = () => {
   const hasDates = useRef<null | number[]>(null)
-  const [{ locations }] = useQuery(getLocations, {})
+
   const [{ auditTypes }] = useQuery(getBasicAuditTypes, {})
+
   const [{ audits, dates }] = useQuery(getAudits, {})
 
-  const [{ regions }] = useQuery(getRegions, {})
+  const [dateId, setDateId] = useState<number | null>(null)
 
-  console.log("dates", dates)
+  const [regionData] = useQuery(
+    getRegions,
+    {
+      include: {
+        Location: {
+          // include: {
+          //   auditAssessments: true,
+          // },
+          select: {
+            auditAssessments: {
+              where: {
+                monthId: dateId,
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      enabled: !!dateId,
+    }
+  )
+
+  const [locationData] = useQuery(
+    getLocations,
+    {
+      include: {
+        region: true,
+        auditAssessments: {
+          where: {
+            monthId: dateId,
+          },
+        },
+      },
+    },
+    {
+      enabled: !!dateId,
+    }
+  )
+
+  useEffect(() => {
+    if (dates.length && dates[0]?.id) {
+      setDateId(dates[0]?.id)
+    }
+  }, [dates])
+
+  if (!regionData || !dateId || !locationData) {
+    return null
+  }
 
   return (
     <div className="w-full h-8/12 border bg-white rounded-md shadow-md p-2">
@@ -37,10 +86,12 @@ const LocationBarChart = () => {
         {({ currentIndex }) => {
           return (
             <Chart
-              regions={regions}
-              locations={locations}
+              regions={regionData.regions}
+              locations={locationData.locations}
               auditTypeId={auditTypes[currentIndex]?.id}
               dates={dates}
+              dateId={dateId}
+              setDateId={setDateId}
             />
           )
         }}
@@ -63,9 +114,19 @@ interface ChartProps {
   })[]
   auditTypeId?: number
   dates: Day[]
+  dateId: number
+  setDateId: Dispatch<number | null>
 }
 
-const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates }) => {
+const Chart: React.FC<ChartProps> = ({
+  regions,
+  locations,
+  auditTypeId,
+  dates,
+  dateId,
+  setDateId,
+}) => {
+  const router = useRouter()
   const [type, setType] = useState("region")
 
   const normalizedMonths = dates.map((month) => ({
@@ -73,15 +134,16 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
     label: `${month.monthName}, ${month.year}`,
   }))
 
-  const [selectedMonth, setSelectedMonth] = useState(dates[0]?.id)
-
   const data = locations.map(({ name, auditAssessments }) => {
     let good = 0
     let satisfactory = 0
     let poor = 0
-    const mapFunction = (x: AuditAssessment) =>
+    let auditIds = new Set()
+    const mapFunction = (x: AuditAssessment) => {
       x.assessment == 2 ? (good += 1) : x.assessment === 1 ? (satisfactory += 1) : (poor += 1)
-    console.log(auditAssessments)
+      auditIds.add(x.auditId)
+    }
+    // console.log(auditAssessments)
     if (auditTypeId) {
       auditAssessments.filter((x) => x.auditTypeId === auditTypeId).forEach(mapFunction)
     }
@@ -90,6 +152,7 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
       good,
       satisfactory,
       poor,
+      auditIds,
     }
   })
 
@@ -97,9 +160,12 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
     let good = 0
     let satisfactory = 0
     let poor = 0
+    let auditIds = new Set()
     region.Location.map(({ auditAssessments }) => {
-      const mapFunction = (x: AuditAssessment) =>
+      const mapFunction = (x: AuditAssessment) => {
         x.assessment == 2 ? (good += 1) : x.assessment === 1 ? (satisfactory += 1) : (poor += 1)
+        auditIds.add(x.auditId)
+      }
 
       if (auditTypeId) {
         auditAssessments.filter((x) => x.auditTypeId === auditTypeId).forEach(mapFunction)
@@ -111,6 +177,7 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
       good,
       satisfactory,
       poor,
+      auditIds,
     }
   })
   return (
@@ -120,8 +187,8 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
         <div className="w-80">
           <SelectMenu
             items={normalizedMonths}
-            onChange={(month) => setSelectedMonth(month)}
-            value={selectedMonth}
+            onChange={(month) => setDateId(month)}
+            value={dateId}
           />
         </div>
       </div>
@@ -135,6 +202,13 @@ const Chart: React.FC<ChartProps> = ({ regions, locations, auditTypeId, dates })
             right: 30,
             left: 20,
             bottom: 5,
+          }}
+          onClick={(e) => {
+            if (type === "site") {
+              const id = Array.from(e.activePayload?.[0].payload.auditIds)[0] as number
+              console.log(id)
+              router.push(Routes.EditAuditPage({ auditId: id }))
+            }
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

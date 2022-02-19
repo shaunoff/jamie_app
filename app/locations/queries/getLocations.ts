@@ -1,5 +1,5 @@
 import { paginate, resolver } from "blitz"
-import db, { Prisma } from "db"
+import db, { Prisma, Location, AuditAssessment, Region } from "db"
 
 interface GetLocationsInput
   extends Pick<Prisma.LocationFindManyArgs, "where" | "orderBy" | "skip" | "take" | "include"> {}
@@ -22,12 +22,15 @@ export default resolver.pipe(
           ...paginateArgs,
           where,
           orderBy,
-          include: { region: true, auditAssessments: true },
+          include,
         }),
     })
 
     return {
-      locations,
+      locations: locations as (Location & {
+        region: Region | null
+        auditAssessments: AuditAssessment[]
+      })[],
       nextPage,
       hasMore,
       count,

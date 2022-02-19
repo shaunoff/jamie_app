@@ -40,6 +40,7 @@ export default resolver.pipe(
           },
         }),
     })
+
     return {
       auditTypes,
       nextPage,

@@ -65,23 +65,24 @@ model Token {
 // }
 
 model Day {
-  id                   Int     @id
+  id                   Int               @id
   actualDate           String
   year                 Int
   unix                 BigInt
-  daySuffix            String  @db.VarChar(4)
-  dayName              String  @db.VarChar(9)
+  daySuffix            String            @db.VarChar(4)
+  dayName              String            @db.VarChar(9)
   dayOfWeek            Int
   dayOfMonth           Int
   dayOfYear            Int
   weekOfYear           Int
   monthOfYear          Int
-  monthName            String  @db.VarChar(9)
-  monthNameAbbreviated String  @db.Char(3)
-  mmyyyy               String  @db.Char(6)
-  mmddyyyy             String  @db.Char(8)
+  monthName            String            @db.VarChar(9)
+  monthNameAbbreviated String            @db.Char(3)
+  mmyyyy               String            @db.Char(6)
+  mmddyyyy             String            @db.Char(8)
   isWeekend            Boolean
   Audit                Audit[]
+  AuditAssessment      AuditAssessment[]
 }
 
 model Template {
@@ -145,6 +146,8 @@ model AuditAssessment {
   auditTypeId Int
   location    Location     @relation(fields: [locationId], references: [id], onDelete: Cascade)
   locationId  Int
+  month       Day?         @relation(fields: [monthId], references: [id])
+  monthId     Int?
 }
 
 model AuditType {

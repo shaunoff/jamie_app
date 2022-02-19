@@ -9,7 +9,27 @@ const GetAudit = z.object({
 
 export default resolver.pipe(resolver.zod(GetAudit), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const audit = await db.audit.findFirst({ where: { id } })
+  const audit = await db.audit.findFirst({
+    where: { id },
+    include: {
+      auditType: {
+        include: {
+          auditSection: {
+            orderBy: {
+              number: "asc",
+            },
+            include: {
+              auditActions: {
+                orderBy: {
+                  position: "asc",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
 
   if (!audit) throw new NotFoundError()
 
