@@ -43,6 +43,7 @@ export default resolver.pipe(
           locationId: locationId,
           actionId: action.id,
           auditTypeId: auditType.id,
+          monthId,
         }
         assessments.push(assessment)
       })
