@@ -16,6 +16,7 @@ import {
 import LocationToggle from "app/core/components/LocationToggle"
 import { Region, AuditAssessment, Location, Day } from "db"
 import Tabs from "app/shared/components/Tabs"
+import LocationsMap from "./LocationsMap"
 
 import getBasicAuditTypes from "app/audit-types/queries/getBasicAuditTypes"
 import getAudits from "app/audits/queries/getAudits"
@@ -89,7 +90,6 @@ const LocationBarChart = () => {
 
   return (
     <div className="flex">
-      <div className="w-1/2"></div>
       <div className="flex justify-between w-1/2 flex-col">
         <div className="flex justify-between">
           <LocationToggle onChange={(e) => setType(e === false ? "site" : "region")} />
@@ -120,6 +120,9 @@ const LocationBarChart = () => {
             </div>
           )
         })}
+      </div>
+      <div className="w-1/2 ml-2">
+        <LocationsMap />
       </div>
     </div>
   )

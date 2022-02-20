@@ -5,6 +5,7 @@ import { z } from "zod"
 export { FORM_ERROR } from "app/core/components/Form"
 import getRegions from "app/regions/queries/getRegions"
 import { useQuery } from "blitz"
+import GoogleAddressField from "app/shared/components/GoogleAddressField"
 
 export function LocationForm<S extends z.ZodType<any, any>>(props: FormProps<S>) {
   const [{ regions }] = useQuery(getRegions, {})
@@ -23,7 +24,11 @@ export function LocationForm<S extends z.ZodType<any, any>>(props: FormProps<S>)
           </div>
 
           <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">
-            <LabeledInputField name="address1" label="Address 1" placeholder="Address 1" />
+            <GoogleAddressField
+              name="address1"
+              label="Address 1"
+              placeholder="Type to search for address"
+            />
           </div>
 
           <div className="sm:col-span-3 md:col-span-3 lg:col-span-2">

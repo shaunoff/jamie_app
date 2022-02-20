@@ -108,6 +108,8 @@ model Location {
   auditAssessments AuditAssessment[]
   region           Region?           @relation(fields: [regionId], references: [id])
   regionId         Int?
+  lat              Float?
+  lng              Float?
 }
 
 model Region {

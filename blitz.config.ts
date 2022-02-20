@@ -8,6 +8,9 @@ const config: BlitzConfig = {
       isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
+  env: {
+    GOOGLE_MAPS: "AIzaSyC5reto2smbU9JjznWM1EAWN8nuTZXdiaw",
+  },
   // pwa: {
   //   dest: "public",
   // },

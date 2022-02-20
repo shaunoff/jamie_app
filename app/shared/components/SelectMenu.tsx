@@ -28,7 +28,7 @@ const SelectMenu = <T extends unknown>({
         }}
       >
         <div className={`relative mt-0 ${disabled && "opacity-40"}`}>
-          <Listbox.Button className="border border-gray-300 h-10 relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-sm cursor-default sm:text-sm">
+          <Listbox.Button className="border border-gray-300 h-10 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-md shadow-sm cursor-default sm:text-sm">
             <span className="block truncate">
               {(value && items.find((item) => item.value === value))?.label ?? (
                 <span className="text-gray-400">Select a Location...</span>

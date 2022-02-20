@@ -10,6 +10,8 @@ export const CreateLocation = z.object({
   poc: z.string(),
   contact: z.string(),
   regionId: z.number().optional(),
+  lat: z.number({ required_error: "Valid Address Required" }),
+  lng: z.number({ required_error: "Valid Address Required" }),
 })
 
 export const UpdateLocation = z.object({
@@ -23,4 +25,6 @@ export const UpdateLocation = z.object({
   poc: z.string(),
   contact: z.string(),
   regionId: z.number(),
+  lat: z.number({ required_error: "Valid Address Required" }),
+  lng: z.number({ required_error: "Valid Address Required" }),
 })

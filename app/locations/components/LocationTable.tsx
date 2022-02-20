@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useRouter, Routes, useMutation } from "blitz"
 import db, { Location, Region } from "db"
-import { PencilAltIcon, TrashIcon } from "@heroicons/react/outline"
+import { CheckCircleIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/outline"
 import deleteLocation from "app/locations/mutations/deleteLocation"
 
 interface LocationTableProps {
@@ -20,7 +20,7 @@ const people = [
   },
 ]
 
-const headCells = ["Name", "Region", "Location", "POC", "Contact"]
+const headCells = ["Name", "Region", "Location", "GeoLocation", "POC", "Contact"]
 
 const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }) => {
   const router = useRouter()
@@ -29,6 +29,7 @@ const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }
       console.info("Successful Update")
     },
   })
+  console.log(locations)
   return (
     <div>
       {admin && (
@@ -75,6 +76,11 @@ const LocationTable: React.FC<LocationTableProps> = ({ locations, admin = true }
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {`${location.address1}, ${location.city}, ${location.postCode}.`}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-center">
+                        {location?.lat ? (
+                          <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                        ) : null}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {location.poc}

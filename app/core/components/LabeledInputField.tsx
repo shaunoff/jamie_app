@@ -33,6 +33,7 @@ export const LabeledInputField = forwardRef<HTMLInputElement, LabeledInputFieldP
     return (
       <div {...outerProps}>
         <Input
+          ref={ref}
           {...input}
           label={label}
           disabled={submitting}
