@@ -1,15 +1,11 @@
 import React, { useState, memo, useRef, useEffect } from "react"
 import { Wrapper, Status } from "@googlemaps/react-wrapper"
 
-interface LocationsMapProps {
-  foo: string
-}
-
 const render = (status: Status) => {
   return <h1>{status}</h1>
 }
 
-const LocationsMap: React.FC<LocationsMapProps> = () => {
+const LocationsMap = () => {
   const center = { lat: 54.5, lng: -4 }
   const zoom = 6.15
 
