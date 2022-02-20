@@ -12,9 +12,10 @@ export const MonthSchema = z.object({
 
 export const AuditActionSchema = z.object({
   id: z.number(),
+  assessmentId: z.number().optional(),
   name: z.string(),
   position: z.number(),
-  comment: z.string().optional(),
+  comment: z.string().optional().nullable(),
   assessment: z.number({
     required_error: "Action Items require an Assessment",
   }),
@@ -38,6 +39,7 @@ export const AuditTypeSchema = z.object({
 
 //todo: move to validations folder
 export const AuditFormSchema = z.object({
+  id: z.number().optional(),
   locationId: z.number(),
   auditType: AuditTypeSchema,
   monthId: z.number(),

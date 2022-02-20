@@ -28,6 +28,13 @@ const LocationBarChart = () => {
 
   const [{ audits, dates }] = useQuery(getAudits, {})
 
+  const [type, setType] = useState("site")
+
+  const normalizedMonths = dates.map((month) => ({
+    value: month.id,
+    label: `${month.monthName}, ${month.year}`,
+  }))
+
   const [dateId, setDateId] = useState<number | null>(null)
 
   const [regionData] = useQuery(
@@ -76,26 +83,44 @@ const LocationBarChart = () => {
     }
   }, [dates])
 
-  if (!regionData || !dateId || !locationData) {
-    return null
-  }
+  // if (!regionData || !dateId || !locationData) {
+  //   return null
+  // }
 
   return (
-    <div className="w-full h-8/12 border bg-white rounded-md shadow-md p-2">
-      <Tabs tabs={auditTypes}>
-        {({ currentIndex }) => {
-          return (
-            <Chart
-              regions={regionData.regions}
-              locations={locationData.locations}
-              auditTypeId={auditTypes[currentIndex]?.id}
-              dates={dates}
-              dateId={dateId}
-              setDateId={setDateId}
+    <div className="flex">
+      <div className="w-1/2"></div>
+      <div className="flex justify-between w-1/2 flex-col">
+        <div className="flex justify-between">
+          <LocationToggle onChange={(e) => setType(e === false ? "site" : "region")} />
+          <div className="w-80">
+            <SelectMenu
+              items={normalizedMonths}
+              onChange={(month) => setDateId(month)}
+              value={dateId}
             />
+          </div>
+        </div>
+        {auditTypes.map((auditType) => {
+          return (
+            <div
+              key={auditType.id}
+              className="w-full h-8/12 border bg-white rounded-md shadow-md p-2 mb-2"
+            >
+              <Chart
+                regions={regionData?.regions!}
+                locations={locationData?.locations!}
+                auditTypeId={auditType?.id}
+                dates={dates}
+                dateId={dateId!}
+                setDateId={setDateId}
+                type={type}
+                name={auditType.name}
+              />
+            </div>
           )
-        }}
-      </Tabs>
+        })}
+      </div>
     </div>
   )
 }
@@ -116,6 +141,8 @@ interface ChartProps {
   dates: Day[]
   dateId: number
   setDateId: Dispatch<number | null>
+  type: string
+  name: string
 }
 
 const Chart: React.FC<ChartProps> = ({
@@ -125,16 +152,12 @@ const Chart: React.FC<ChartProps> = ({
   dates,
   dateId,
   setDateId,
+  type,
+  name,
 }) => {
   const router = useRouter()
-  const [type, setType] = useState("region")
 
-  const normalizedMonths = dates.map((month) => ({
-    value: month.id,
-    label: `${month.monthName}, ${month.year}`,
-  }))
-
-  const data = locations.map(({ name, auditAssessments }) => {
+  const data = (locations ?? []).map(({ name, auditAssessments }) => {
     let good = 0
     let satisfactory = 0
     let poor = 0
@@ -156,7 +179,7 @@ const Chart: React.FC<ChartProps> = ({
     }
   })
 
-  const regionData = regions.map((region) => {
+  const regionData = (regions ?? []).map((region) => {
     let good = 0
     let satisfactory = 0
     let poor = 0
@@ -182,20 +205,11 @@ const Chart: React.FC<ChartProps> = ({
   })
   return (
     <>
-      <div className="flex justify-between">
-        <LocationToggle onChange={(e) => setType(e === false ? "region" : "site")} />
-        <div className="w-80">
-          <SelectMenu
-            items={normalizedMonths}
-            onChange={(month) => setDateId(month)}
-            value={dateId}
-          />
-        </div>
-      </div>
-      <ResponsiveContainer width="99%" height={400}>
+      <h1 className="p-1 font-lg text-lg text-blue-600">{name}</h1>
+      <ResponsiveContainer width="99%" height={200}>
         <BarChart
-          width={500}
-          height={300}
+          width={300}
+          height={200}
           data={type === "region" ? regionData : data}
           margin={{
             top: 20,

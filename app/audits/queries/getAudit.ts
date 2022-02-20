@@ -1,5 +1,5 @@
 import { resolver, NotFoundError } from "blitz"
-import db from "db"
+import db, { Audit, AuditType, AuditSection, AuditAction, AuditAssessment } from "db"
 import { z } from "zod"
 
 const GetAudit = z.object({
@@ -12,6 +12,7 @@ export default resolver.pipe(resolver.zod(GetAudit), resolver.authorize(), async
   const audit = await db.audit.findFirst({
     where: { id },
     include: {
+      date: true,
       auditType: {
         include: {
           auditSection: {
@@ -22,6 +23,13 @@ export default resolver.pipe(resolver.zod(GetAudit), resolver.authorize(), async
               auditActions: {
                 orderBy: {
                   position: "asc",
+                },
+                include: {
+                  auditAssessments: {
+                    where: {
+                      auditId: id,
+                    },
+                  },
                 },
               },
             },

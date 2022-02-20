@@ -7,19 +7,27 @@ interface SelectMenuProps<T> {
   onChange: any
   value?: T
   label?: string
+  disabled?: boolean
 }
 
-const SelectMenu = <T extends unknown>({ items, onChange, value, label }: SelectMenuProps<T>) => {
+const SelectMenu = <T extends unknown>({
+  items,
+  onChange,
+  value,
+  label,
+  disabled,
+}: SelectMenuProps<T>) => {
   return (
     <>
       {!!label && <label className={"block text-base text-gray-500 font-bold mb-1"}>{label}</label>}
       <Listbox
+        disabled={disabled}
         value={value}
         onChange={(e) => {
           onChange(e)
         }}
       >
-        <div className="relative mt-0">
+        <div className={`relative mt-0 ${disabled && "opacity-40"}`}>
           <Listbox.Button className="border border-gray-300 h-10 relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-sm cursor-default sm:text-sm">
             <span className="block truncate">
               {(value && items.find((item) => item.value === value))?.label ?? (

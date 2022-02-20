@@ -1,4 +1,4 @@
-import { useMutation, validateZodSchema } from "blitz"
+import { Routes, useMutation, useRouter, validateZodSchema } from "blitz"
 import { LabeledTextAreaField } from "app/core/components/LabeledTextAreaField"
 
 import ButtonGroupField from "./ButtonGroupField"
@@ -16,6 +16,8 @@ import Button from "app/core/components/Button"
 import { FormApi } from "final-form"
 import { AuditFormSchema } from "../validations"
 import createAudit from "app/audits/mutations/createAudit"
+import updateAudit from "app/audits/mutations/updateAudit"
+import normalizeAuditType from "../lib/normalizeAuditType"
 
 interface AuditFormProps {
   locations: Location[]
@@ -32,25 +34,32 @@ interface AuditFormProps {
 
 export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months, audit }) => {
   const [createAuditMutation] = useMutation(createAudit)
+  const [updateAuditMutation] = useMutation(updateAudit)
+  const router = useRouter()
 
   const onSubmit = async (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
-    console.log("passed validation", vals)
-    await createAuditMutation(vals)
+    console.log(vals)
+    if (vals.id) {
+      await updateAuditMutation(vals)
+    } else {
+      await createAuditMutation(vals)
+      router.push(Routes.Home())
+    }
+
     Notification({
       locationName: locations.find((location) => vals.locationId === location.id)?.name,
       auditType: vals.auditType.name,
     })
-    form.reset()
   }
   const normalizedMonths = months.map((month) => ({
     value: month.id,
     label: `${month.monthName}, ${month.year}`,
   }))
 
-  //Todo: what if the month isnt there?
-  const defaultMonth = audit
-    ? normalizedMonths.find((month) => month.value === audit.dateId)
-    : normalizedMonths[1]
+  const normalizedAudit = audit ? normalizeAuditType(audit) : null
+
+  //Can't edit month
+  const defaultMonth = normalizedAudit ? normalizedAudit.month : normalizedMonths[1]
 
   const normalizedLocations = locations.map((location) => ({
     value: location.id,
@@ -59,8 +68,9 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
   return (
     <div>
       <FinalForm
+        keepDirtyOnReinitialize={true}
         initialValues={
-          { ...audit, monthId: audit?.dateId } || { auditType: {}, month: defaultMonth }
+          normalizedAudit ? normalizedAudit : { auditType: {}, monthId: defaultMonth?.value }
         }
         validate={(vals) => validateZodSchema(AuditFormSchema)(vals)}
         onSubmit={onSubmit}
@@ -75,15 +85,29 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                 <div className="flex flex-wrap">
                   <div className="w-full md:w-2/3 md:pr-4 mb-8">
                     <p className="block text-xl text-gray-600 font-bold mb-2">Location</p>
-                    <SelectMenuField items={normalizedLocations} name="locationId" />
+                    <SelectMenuField
+                      items={normalizedLocations}
+                      name="locationId"
+                      disabled={audit ? true : false}
+                    />
                   </div>
                   <div className="w-full md:w-1/3 mb-8">
                     <p className="block text-xl text-gray-600 font-bold mb-2">Date</p>
-                    <SelectMenuField items={normalizedMonths} name="monthId" />
+                    <SelectMenuField
+                      items={normalizedAudit ? [normalizedAudit.month] : normalizedMonths}
+                      name="monthId"
+                      disabled={audit ? true : false}
+                    />
                   </div>
                 </div>
 
-                {values.locationId && <RadioGroup auditTypes={auditTypes} name="auditType" />}
+                {values.locationId && (
+                  <RadioGroup
+                    auditTypes={auditTypes}
+                    name="auditType"
+                    disabled={audit ? true : false}
+                  />
+                )}
                 {selectedAuditType && (
                   <>
                     <p className="block text-xl text-gray-600 font-bold">Action Items</p>

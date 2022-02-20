@@ -15,7 +15,7 @@ const Example: React.FC<Props> = ({ onChange }) => {
   return (
     <Switch.Group as="div" className="flex items-center p-2">
       <Switch.Label as="span" className="mr-3">
-        <span className="text-sm font-bold text-gray-700">Region </span>
+        <span className="text-sm font-bold text-gray-700">Site </span>
       </Switch.Label>
       <Switch
         checked={enabled}
@@ -37,7 +37,7 @@ const Example: React.FC<Props> = ({ onChange }) => {
         />
       </Switch>
       <Switch.Label as="span" className="ml-3">
-        <span className="text-sm font-bold text-gray-700">Site</span>
+        <span className="text-sm font-bold text-gray-700">Region</span>
       </Switch.Label>
     </Switch.Group>
   )

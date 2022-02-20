@@ -30,11 +30,25 @@ const EditAudit: BlitzPage = () => {
     }
   )
 
-  const [audit] = useQuery(getAudit, { id: auditId })
+  const [audit] = useQuery(
+    getAudit,
+    { id: auditId },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      onSuccess: () => console.log("refetched"),
+    }
+  )
   // get the first day of the previous, current and next Months
-  const [{ days: months }] = useQuery(getDays, {
-    where: createAuditMonthsParams(),
-  })
+  const [{ days: months }] = useQuery(
+    getDays,
+    {
+      where: createAuditMonthsParams(),
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  )
 
   //  console.log(auditTypes)
   // const router = useRouter()
