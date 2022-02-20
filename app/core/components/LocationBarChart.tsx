@@ -84,9 +84,9 @@ const LocationBarChart = () => {
     }
   }, [dates])
 
-  // if (!regionData || !dateId || !locationData) {
-  //   return null
-  // }
+  if (!regionData || !dateId || !locationData) {
+    return <div>loading</div>
+  }
 
   return (
     <div className="flex">
@@ -122,7 +122,7 @@ const LocationBarChart = () => {
         })}
       </div>
       <div className="w-1/2 ml-2">
-        <LocationsMap />
+        <LocationsMap locations={locationData?.locations} />
       </div>
     </div>
   )
