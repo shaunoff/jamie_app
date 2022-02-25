@@ -1,5 +1,13 @@
 import previewEmail from "preview-email"
-import postmarkClient from "integrations/postmark"
+import nodemailer from "nodemailer"
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "shaunoff@googlemail.com",
+    pass: "Woodbird966%", // naturally, replace both with your real credentials or an application-specific password
+  },
+})
 
 type ResetPasswordMailer = {
   to: string
@@ -20,18 +28,18 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   `
 
   const message = {
-    From: "support@sprightly.app",
-    To: to,
-    Subject: "Your Password Reset Instructions",
-    HtmlBody: html,
-    TextBody: "Your Password Reset Instructions",
+    from: "shaunoff@googlemail.com",
+    to: to,
+    subject: "Your Password Reset Instructions",
+    html: html,
+    text: "Your Password Reset Instructions",
   }
 
   return {
     async send() {
-      if (process.env.NODE_ENV === "production") {
+      if (true) {
         try {
-          await await postmarkClient.sendEmail(message)
+          await await transporter.sendMail(message)
         } catch (err) {
           console.error(err)
         }

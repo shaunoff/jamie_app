@@ -16,7 +16,7 @@ export const SignupForm = (props: SignupFormProps) => {
       <Form
         submitText="Create Account"
         schema={Signup}
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "", password: "", name: "" }}
         onSubmit={async (values) => {
           try {
             await signupMutation(values)
@@ -31,6 +31,7 @@ export const SignupForm = (props: SignupFormProps) => {
           }
         }}
       >
+        <LabeledInputField name="name" label="Name" placeholder="Name" data-testid="signup-name" />
         <LabeledInputField
           name="email"
           label="Email"

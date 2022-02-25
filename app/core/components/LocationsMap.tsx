@@ -25,12 +25,13 @@ const LocationsMap: React.FC<LocationsMapProps> = ({ locations }) => {
           {locations
             .filter((loc) => !!loc.lat)
             .map((location, i) => (
-              <Marker
+              <Circle
                 key={i} // eslint-disable-line react/no-array-index-key
-                position={{
+                center={{
                   lat: location.lat!,
                   lng: location.lng!,
                 }}
+                radius={100000 * Math.random()}
               />
             ))}
         </MyMapComponent>
@@ -102,6 +103,38 @@ const Marker: React.FC<google.maps.MarkerOptions> = (options) => {
       marker.setOptions(options)
     }
   }, [marker, options])
+
+  return null
+}
+
+const Circle: React.FC<google.maps.CircleOptions> = (options) => {
+  const [circle, setCircle] = React.useState<google.maps.Circle>()
+
+  React.useEffect(() => {
+    if (!circle) {
+      setCircle(new google.maps.Circle())
+    }
+
+    // remove marker from map on unmount
+    return () => {
+      if (circle) {
+        circle.setMap(null)
+      }
+    }
+  }, [circle])
+
+  React.useEffect(() => {
+    if (circle) {
+      circle.setOptions({
+        strokeColor: "#82ca9d",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#82ca9d",
+        fillOpacity: 0.35,
+        ...options,
+      })
+    }
+  }, [circle, options])
 
   return null
 }
