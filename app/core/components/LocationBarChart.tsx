@@ -122,7 +122,11 @@ const LocationBarChart = () => {
         })}
       </div>
       <div className="w-1/2 ml-2">
-        <LocationsMap locations={locationData?.locations} />
+        <LocationsMap
+          locations={locationData?.locations}
+          regions={regionData?.regions!}
+          auditTypeId={auditTypes[0]?.id}
+        />
       </div>
     </div>
   )
@@ -160,27 +164,7 @@ const Chart: React.FC<ChartProps> = ({
 }) => {
   const router = useRouter()
 
-  const data = (locations ?? []).map(({ name, auditAssessments }) => {
-    let good = 0
-    let satisfactory = 0
-    let poor = 0
-    let auditIds = new Set()
-    const mapFunction = (x: AuditAssessment) => {
-      x.assessment == 2 ? (good += 1) : x.assessment === 1 ? (satisfactory += 1) : (poor += 1)
-      auditIds.add(x.auditId)
-    }
-    // console.log(auditAssessments)
-    if (auditTypeId) {
-      auditAssessments.filter((x) => x.auditTypeId === auditTypeId).forEach(mapFunction)
-    }
-    return {
-      name,
-      good,
-      satisfactory,
-      poor,
-      auditIds,
-    }
-  })
+  const data = getLocationData(locations ?? [], auditTypeId)
 
   const regionData = (regions ?? []).map((region) => {
     let good = 0
@@ -240,4 +224,36 @@ const Chart: React.FC<ChartProps> = ({
       </ResponsiveContainer>
     </>
   )
+}
+
+export const getLocationData = (
+  locations: (Location & {
+    region: Region | null
+    auditAssessments: AuditAssessment[]
+  })[],
+  auditTypeId?: number
+) => {
+  return (locations ?? []).map(({ name, auditAssessments, lat, lng }) => {
+    let good = 0
+    let satisfactory = 0
+    let poor = 0
+    let auditIds = new Set()
+    const mapFunction = (x: AuditAssessment) => {
+      x.assessment == 2 ? (good += 1) : x.assessment === 1 ? (satisfactory += 1) : (poor += 1)
+      auditIds.add(x.auditId)
+    }
+    // console.log(auditAssessments)
+    if (auditTypeId) {
+      auditAssessments.filter((x) => x.auditTypeId === auditTypeId).forEach(mapFunction)
+    }
+    return {
+      name,
+      good,
+      satisfactory,
+      poor,
+      auditIds,
+      lat,
+      lng,
+    }
+  })
 }
