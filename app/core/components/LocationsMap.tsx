@@ -52,8 +52,8 @@ const LocationsMap: React.FC<LocationsMapProps> = ({ locations, auditTypeId }) =
                       lng: location.lng!,
                     }}
                     radius={1200 * location.satisfactory}
-                    fillColor="yellow"
-                    strokeColor="yellow"
+                    fillColor="orange"
+                    strokeColor="orange"
                   />,
                   <Circle
                     key={i + "poor"} // eslint-disable-line react/no-array-index-key
@@ -160,9 +160,9 @@ const Circle: React.FC<google.maps.CircleOptions> = (options) => {
   React.useEffect(() => {
     if (circle) {
       circle.setOptions({
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillOpacity: 0.35,
+        strokeOpacity: 1,
+        strokeWeight: 0.5,
+        fillOpacity: 0.2,
         ...options,
       })
     }
