@@ -11,10 +11,11 @@ const ctx = {
 type UserAttributes = {
   email?: string
   password: string
+  name: string
 }
 
-export const user = async ({ email = chance.email(), password }: UserAttributes) => {
-  const user = await signup({ email, password }, ctx as any)
+export const user = async ({ email = chance.email(), password, name }: UserAttributes) => {
+  const user = await signup({ name, email, password }, ctx as any)
 
   return user
 }

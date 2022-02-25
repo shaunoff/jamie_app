@@ -13,10 +13,15 @@ const ctx = {
 type TokenAttributes = {
   email?: string
   password: string
+  name?: string
 }
 
-export const resetToken = async ({ email = chance.email(), password }: TokenAttributes) => {
-  await signup({ email, password }, ctx as any)
+export const resetToken = async ({
+  email = chance.email(),
+  password,
+  name = chance.string(),
+}: TokenAttributes) => {
+  await signup({ email, password, name }, ctx as any)
 
   // const token = await db.token.create({
   //   data: {
