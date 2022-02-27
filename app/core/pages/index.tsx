@@ -31,13 +31,13 @@ const UserInfo = () => {
     return (
       <div>
         <LocationBarChart />
-        <div
+        {/* <div
           onClick={async () => {
             await logoutMutation()
           }}
         >
           logout
-        </div>
+        </div> */}
       </div>
     )
   } else {

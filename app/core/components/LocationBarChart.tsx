@@ -89,8 +89,8 @@ const LocationBarChart = () => {
   }
 
   return (
-    <div className="flex">
-      <div className="flex justify-between w-1/2 flex-col">
+    <div className="flex flex-wrap">
+      <div className="flex justify-between w-full md:w-1/2 flex-col">
         <div className="flex justify-between">
           <LocationToggle onChange={(e) => setType(e === false ? "site" : "region")} />
           <div className="w-80">
@@ -121,7 +121,7 @@ const LocationBarChart = () => {
           )
         })}
       </div>
-      <div className="w-1/2 ml-2">
+      <div className="w-full md:w-1/2 pl-2 h-screen">
         <LocationsMap
           locations={locationData?.locations}
           regions={regionData?.regions!}
@@ -257,3 +257,5 @@ export const getLocationData = (
     }
   })
 }
+
+export type LocationData = ReturnType<typeof getLocationData>
