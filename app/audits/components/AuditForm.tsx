@@ -18,6 +18,7 @@ import { AuditFormSchema } from "../validations"
 import createAudit from "app/audits/mutations/createAudit"
 import updateAudit from "app/audits/mutations/updateAudit"
 import normalizeAuditType from "../lib/normalizeAuditType"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 interface AuditFormProps {
   locations: Location[]
@@ -33,12 +34,12 @@ interface AuditFormProps {
 }
 
 export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, months, audit }) => {
+  const currentUser = useCurrentUser()
   const [createAuditMutation] = useMutation(createAudit)
   const [updateAuditMutation] = useMutation(updateAudit)
   const router = useRouter()
 
   const onSubmit = async (vals: z.infer<typeof AuditFormSchema>, form: FormApi) => {
-    console.log(vals)
     if (vals.id) {
       await updateAuditMutation(vals)
     } else {
@@ -65,6 +66,8 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
     value: location.id,
     label: location.name,
   }))
+
+  const isAdmin = currentUser?.role === "ADMIN"
   return (
     <div>
       <FinalForm
@@ -78,7 +81,7 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
           const selectedAuditType = auditTypes.find(
             (auditType) => auditType.id === values.auditType.id
           )
-          console.log(values, errors)
+
           return (
             <form onSubmit={handleSubmit} className="form">
               <>
@@ -110,7 +113,7 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                 )}
                 {selectedAuditType && (
                   <>
-                    <p className="block text-xl text-gray-600 font-bold">Action Items</p>
+                    <p className="block text-xl text-gray-600 font-bold mt-8">Action Items</p>
                     <ul>
                       {selectedAuditType.auditSection.map((section, sectionIndex) => (
                         <li key={section.id}>
@@ -149,6 +152,7 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                                               Assessment
                                             </p>
                                             <ButtonGroupField
+                                              disabled={audit && !isAdmin}
                                               name={`auditType.auditSection[${sectionIndex}].auditActions[${i}].assessment`}
                                             />
                                           </div>
@@ -160,6 +164,7 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                                           label="Comment"
                                           placeholder="Add comment here..."
                                           rows={3}
+                                          disabled={audit && !isAdmin}
                                         />
                                       </div>
                                     </div>
@@ -175,7 +180,12 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                 )}
               </>
               {selectedAuditType && (
-                <Button className="mt-4" type="submit" disabled={submitting} block>
+                <Button
+                  className="mt-4"
+                  type="submit"
+                  disabled={submitting || (audit && !isAdmin)}
+                  block
+                >
                   Submit Audit
                 </Button>
               )}

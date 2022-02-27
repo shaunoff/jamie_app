@@ -14,6 +14,9 @@ export const LocationsList = () => {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
+    include: {
+      region: true,
+    },
   })
 
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })

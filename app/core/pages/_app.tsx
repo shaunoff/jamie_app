@@ -7,12 +7,14 @@ import {
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
   Head,
+  BlitzPage,
 } from "blitz"
 import LoginForm from "app/auth/components/LoginForm"
 
 import "app/core/styles/index.css"
+import { Suspense } from "react"
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
@@ -43,3 +45,15 @@ function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
     )
   }
 }
+
+const AppSuspense = ({ Component, pageProps }: AppProps) => {
+  return (
+    <div>
+      <Suspense fallback="Loading...">
+        <App Component={Component} {...pageProps} />
+      </Suspense>
+    </div>
+  )
+}
+
+export default AppSuspense

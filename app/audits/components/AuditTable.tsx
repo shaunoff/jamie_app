@@ -5,19 +5,19 @@ import {
   EmojiHappyIcon,
   EmojiSadIcon,
   ExclamationCircleIcon,
+  EyeIcon,
   PencilAltIcon,
 } from "@heroicons/react/outline"
 
 //figure out how to infer the nested types
 interface AuditTableProps {
   audits: (
-    | (Audit & {
+    | Audit & {
         auditType: AuditType
         location: Location
         date: Day
         auditAssessments: AuditAssessment[]
-      })
-    | any
+      }
   )[]
 }
 
@@ -28,9 +28,11 @@ const headCells = [
   <EmojiHappyIcon key="good" className={"text-gray-500 h-6 w-6"} />,
   <ExclamationCircleIcon key="ok" className={"text-gray-500 h-6 w-6"} />,
   <EmojiSadIcon key="poor" className={"text-gray-500 h-6 w-6"} />,
+  "View",
 ]
 
 const AuditTable: React.FC<AuditTableProps> = ({ audits }) => {
+  const router = useRouter()
   return (
     <div>
       <div className="flex flex-col">
@@ -44,7 +46,7 @@ const AuditTable: React.FC<AuditTableProps> = ({ audits }) => {
                       <th
                         key={i}
                         scope="col"
-                        className="px-6 py-3 text-left text-sm font-bold text-gray-500 uppercase tracking-wider"
+                        className="px-6 py-3 text-center text-sm font-bold text-gray-500 uppercase tracking-wider"
                       >
                         {cell}
                       </th>
@@ -83,6 +85,12 @@ const AuditTable: React.FC<AuditTableProps> = ({ audits }) => {
                           <h3 className="text-sm font-bold text-gray-800">
                             {poor ? poor.length : 0}
                           </h3>
+                        </td>
+                        <td className="flex justify-center items-center p-4">
+                          <EyeIcon
+                            className="text-blue-600 h-5 w-5"
+                            onClick={() => router.push(Routes.EditAuditPage({ auditId: audit.id }))}
+                          />
                         </td>
                       </tr>
                     )

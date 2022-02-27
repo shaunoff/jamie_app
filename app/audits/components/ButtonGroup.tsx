@@ -7,20 +7,22 @@ interface ButtonGroupProps {
   value?: number
   onChange: (num: number) => void
   error: boolean
+  disabled?: boolean
 }
 
 const baseButtonStyle =
   "relative inline-flex items-center px-6 py-4 bg-white border-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none"
 const baseIconStyle = `h-12 w-12`
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ value, onChange, error }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ value, onChange, error, disabled = false }) => {
   return (
     <div
       className={`mt-1 relative z-0 inline-flex shadow-sm rounded-md ${
         error && "border-red-500 border-2"
-      }`}
+      } ${disabled && "opacity-50"}`}
     >
       <button
+        disabled={disabled}
         onClick={() => onChange(2)}
         type="button"
         className={`${baseButtonStyle} bg-white rounded-l-md ${
@@ -32,6 +34,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ value, onChange, error }) => 
         />
       </button>
       <button
+        disabled={disabled}
         onClick={() => onChange(1)}
         type="button"
         className={`${baseButtonStyle} bg-white ${
@@ -43,6 +46,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ value, onChange, error }) => 
         />
       </button>
       <button
+        disabled={disabled}
         onClick={() => onChange(0)}
         type="button"
         className={`${baseButtonStyle} bg-white rounded-r-md ${

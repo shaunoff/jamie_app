@@ -18,7 +18,7 @@ interface Props extends React.ComponentPropsWithRef<"textarea"> {
 
 const textArea = {
   label: "block text-base text-gray-500 font-bold",
-  disabled: "opacity-50",
+  disabled: "opacity-70",
   container: {
     base: "mt-1",
     error: "relative rounded-md shadow-sm",

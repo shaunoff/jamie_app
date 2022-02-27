@@ -6,9 +6,14 @@ export interface LabeledInputFieldProps {
   /** Field name. */
   name: string
   fieldProps?: UseFieldConfig<number>
+  disabled?: boolean
 }
 
-export const ButtonGroupField: React.FC<LabeledInputFieldProps> = ({ name, fieldProps }) => {
+export const ButtonGroupField: React.FC<LabeledInputFieldProps> = ({
+  name,
+  fieldProps,
+  disabled = false,
+}) => {
   const {
     input,
     meta: { touched, error },
@@ -19,6 +24,7 @@ export const ButtonGroupField: React.FC<LabeledInputFieldProps> = ({ name, field
   return (
     <div>
       <ButtonGroup
+        disabled={disabled}
         value={input.value}
         onChange={input.onChange}
         error={touched && normalizedError}

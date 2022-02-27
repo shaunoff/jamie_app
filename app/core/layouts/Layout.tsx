@@ -26,8 +26,8 @@ const navigation = [
   { name: "Completed Audits", href: "/audits", icon: CogIcon },
   { name: "Create Audit", href: "/audits/new", icon: ClipboardListIcon },
   { name: "Locations", href: "/locations", icon: LocationMarkerIcon },
-  { name: "Admin", href: "/admin", icon: CogIcon },
-  { name: "Users", href: "/users", icon: UserGroupIcon },
+  { name: "Admin", href: "/admin", icon: CogIcon, adminOnly: true },
+  { name: "Users", href: "/users", icon: UserGroupIcon, adminOnly: true },
   // { name: "Team", href: "#", icon: UsersIcon, current: false },
   // { name: "Projects", href: "#", icon: FolderIcon, current: false },
   // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
@@ -40,10 +40,12 @@ function classNames(...classes) {
 }
 
 const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
+  const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
-  console.log(router.pathname, navigation)
+
+  const isAdmin = currentUser?.role === "ADMIN"
   return (
     <>
       <div>
@@ -98,7 +100,9 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                   </div>
                   <nav className="mt-5 px-2 space-y-1">
                     {navigation.map((item) => {
-                      console.log(item.href === router.pathname)
+                      if (item.adminOnly && !isAdmin) {
+                        return null
+                      }
                       const anchorClass =
                         item.href == router.pathname
                           ? "bg-blue-300 text-gray-700 group flex items-center px-2 py-2 text-base font-bold rounded-md"
@@ -116,7 +120,8 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                     })}
                   </nav>
                 </div>
-                <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+                <div className="flex-shrink-0 flex border-t border-gray-200 p-2 justify-between items-center">
+                  <p className="w-1/2">{currentUser?.name}</p>
                   <Button
                     onClick={async () => {
                       await logoutMutation()
@@ -143,7 +148,9 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
               </div>
               <nav className="mt-2 flex-1 px-2 bg-white space-y-1">
                 {navigation.map((item) => {
-                  console.log(item.href === router.pathname)
+                  if (item.adminOnly && !isAdmin) {
+                    return null
+                  }
                   const anchorClass =
                     item.href == router.pathname
                       ? "bg-blue-500 text-blue-100 group flex items-center px-2 py-2 text-base font-bold rounded-md"
@@ -161,16 +168,17 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                 })}
               </nav>
             </div>
-            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
-              <a href="#" className="flex-shrink-0 w-full group block">
-                <Button
-                  onClick={async () => {
-                    await logoutMutation()
-                  }}
-                >
-                  Logout
-                </Button>
-              </a>
+            <div className="flex-shrink-0 flex border-t border-gray-200 p-2 items-center justify-between">
+              <p className="w-1/2">{currentUser?.name}</p>
+
+              <Button
+                size="small"
+                onClick={async () => {
+                  await logoutMutation()
+                }}
+              >
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -187,12 +195,12 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
           </div>
           <main className="flex-1">
             <div className="py-6">
-              <div className="max-w-10xl mx-auto px-4 sm:px-6 md:px-8">
+              <div className="mx-auto px-4 sm:px-6 md:px-8">
                 <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
               </div>
-              <div className="max-w-10xl mx-auto px-4 sm:px-6 md:px-8">
+              <div className="px-4 sm:px-6 md:px-8">
                 {/* Replace with your content */}
-                <div className="py-4">{children}</div>
+                <div>{children}</div>
                 {/* /End replace */}
               </div>
             </div>
