@@ -13,6 +13,7 @@ import LoginForm from "app/auth/components/LoginForm"
 
 import "app/core/styles/index.css"
 import { Suspense } from "react"
+import Loading from "app/shared/components/Loading"
 
 function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -49,7 +50,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
 const AppSuspense = ({ Component, pageProps }: AppProps) => {
   return (
     <div>
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<Loading className="w-full h-full flex justify-center items-center" />}>
         <App Component={Component} {...pageProps} />
       </Suspense>
     </div>

@@ -21,6 +21,7 @@ import LocationsMap from "./LocationsMap"
 import getBasicAuditTypes from "app/audit-types/queries/getBasicAuditTypes"
 import getAudits from "app/audits/queries/getAudits"
 import SelectMenu from "app/shared/components/SelectMenu"
+import Loading from "app/shared/components/Loading"
 
 const LocationBarChart = () => {
   const hasDates = useRef<null | number[]>(null)
@@ -85,7 +86,7 @@ const LocationBarChart = () => {
   }, [dates])
 
   if (!regionData || !dateId || !locationData) {
-    return <div>loading</div>
+    return <Loading className="w-full h-full flex justify-center items-center" />
   }
 
   return (

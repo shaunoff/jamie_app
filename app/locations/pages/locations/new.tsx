@@ -5,6 +5,7 @@ import { LocationForm, FORM_ERROR } from "app/locations/components/LocationForm"
 
 import { CreateLocation } from "../../validations"
 import { Suspense } from "react"
+import Loading from "app/shared/components/Loading"
 
 const NewLocationPage: BlitzPage = () => {
   const router = useRouter()
@@ -48,7 +49,7 @@ const NewLocationPage: BlitzPage = () => {
 const NewLocation: BlitzPage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading className="w-full h-full flex justify-center items-center" />}>
         <NewLocationPage />
       </Suspense>
     </div>

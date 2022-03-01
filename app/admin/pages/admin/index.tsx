@@ -12,6 +12,7 @@ import LocationTable from "app/locations/components/LocationTable"
 import AuditTypesAdmin from "app/audit-types/components/AuditTypesAdmin"
 import updateAuditTypes from "app/audit-types/mutations/updateAuditTypes"
 import Tabs from "app/shared/components/Tabs"
+import Loading from "app/shared/components/Loading"
 
 const ITEMS_PER_PAGE = 100
 
@@ -42,7 +43,7 @@ const AdminPage: BlitzPage = () => {
         <title>Admin</title>
       </Head>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading className="w-full vh-1/2 flex justify-center items-center" />}>
         <Admin />
       </Suspense>
     </>

@@ -7,6 +7,7 @@ import getAudit from "app/audits/queries/getAudit"
 import getAuditTypes from "app/audit-types/queries/getAuditTypes"
 import getDays from "app/days/queries/getDays"
 import createAuditMonthsParams from "../../lib/createAuditMonthsParams"
+import Loading from "app/shared/components/Loading"
 
 const EditAudit: BlitzPage = () => {
   const router = useRouter()
@@ -65,7 +66,7 @@ const EditAuditPage: BlitzPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading className="w-full h-full flex justify-center items-center" />}>
           <EditAudit />
         </Suspense>
       </div>

@@ -7,6 +7,7 @@ import getLocations from "app/locations/queries/getLocations"
 import AuditTable from "../../components/AuditTable"
 import getBasicAuditTypes from "app/audit-types/queries/getBasicAuditTypes"
 import SelectMenu from "app/shared/components/SelectMenu"
+import Loading from "app/shared/components/Loading"
 
 const ITEMS_PER_PAGE = 100
 
@@ -88,7 +89,7 @@ const AuditsPage: BlitzPage = () => {
       </Head>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading className="w-full h-96 flex justify-center items-center" />}>
           <AuditsList />
         </Suspense>
       </div>
