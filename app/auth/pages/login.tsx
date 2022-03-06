@@ -10,9 +10,7 @@ const LoginPage: BlitzPage = () => {
   return (
     <Container className="" centerContents>
       <div className="lg:w-1/3 sm:w-7/12 md:w-1/2 w-9/12 bg-white p-4 rounded-lg shadow-lg">
-        <div className="w-full p-6">
-          <Image src={logo} alt="logo" />
-        </div>
+        <div className="w-full p-6">{/* <Image src={logo} alt="logo" /> */}</div>
         <LoginForm
           onSuccess={(_user) => {
             const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"

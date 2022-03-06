@@ -55,7 +55,7 @@ const NewAuditPage: BlitzPage = () => {
   )
 }
 
-NewAuditPage.authenticate = true
+NewAuditPage.authenticate = { redirectTo: "/login" }
 NewAuditPage.getLayout = (page) => <Layout title={"Create New Audit"}>{page}</Layout>
 
 export default NewAuditPage

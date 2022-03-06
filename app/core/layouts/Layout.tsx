@@ -94,9 +94,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
                 </Transition.Child>
                 <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                   <div className="flex-shrink-0 flex items-center px-4">
-                    <div className="w-1/2">
-                      <Image src={logo} alt="logo" />
-                    </div>
+                    <div className="w-1/2">{/* <Image src={logo} alt="logo" /> */}</div>
                   </div>
                   <nav className="mt-5 px-2 space-y-1">
                     {navigation.map((item) => {
@@ -144,7 +142,7 @@ const Layout: BlitzLayout<{ title?: string }> = ({ title, children }) => {
           <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
             <div className="flex-1 flex flex-col pt-4overflow-y-auto">
               <div className="flex justify-center flex-shrink-0 px-12 w-full">
-                <Image src={logo} alt="logo" className="justify-center" />
+                {/* <Image src={logo} alt="logo" className="justify-center" /> */}
               </div>
               <nav className="mt-2 flex-1 px-2 bg-white space-y-1">
                 {navigation.map((item) => {

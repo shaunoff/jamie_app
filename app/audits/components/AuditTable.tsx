@@ -7,7 +7,10 @@ import {
   ExclamationCircleIcon,
   EyeIcon,
   PencilAltIcon,
+  PrinterIcon,
 } from "@heroicons/react/outline"
+import printAudit from "../lib/printAudit"
+import PrintAudit from "./PrintAudit"
 
 //figure out how to infer the nested types
 interface AuditTableProps {
@@ -91,6 +94,7 @@ const AuditTable: React.FC<AuditTableProps> = ({ audits }) => {
                             className="text-blue-600 h-5 w-5"
                             onClick={() => router.push(Routes.EditAuditPage({ auditId: audit.id }))}
                           />
+                          <PrintAudit id={audit.id} />
                         </td>
                       </tr>
                     )

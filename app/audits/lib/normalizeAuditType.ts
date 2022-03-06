@@ -1,4 +1,4 @@
-import { Audit, AuditAction, AuditType, AuditSection, Day, AuditAssessment } from "db"
+import { Audit, AuditAction, AuditType, AuditSection, Day, AuditAssessment, Location } from "db"
 import produce from "immer"
 
 const normalizeAuditType = (originalData: any) => {
@@ -16,6 +16,7 @@ const normalizeAuditType = (originalData: any) => {
       })[]
     }
     date: Day
+    location: Location
   }
   const nextStore = produce(data, (draft) => {
     draft.month = {

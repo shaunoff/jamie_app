@@ -81,7 +81,7 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
           const selectedAuditType = auditTypes.find(
             (auditType) => auditType.id === values.auditType.id
           )
-
+          console.log("what?", selectedAuditType)
           return (
             <form onSubmit={handleSubmit} className="form">
               <>
@@ -134,39 +134,35 @@ export const AuditForm: React.FC<AuditFormProps> = ({ locations, auditTypes, mon
                             <ul role="list" className="divide-y divide-gray-200">
                               {section.auditActions.map((application, i) => (
                                 <li key={i}>
-                                  <div className="block hover:bg-gray-50">
-                                    <div className="flex items-center px-4 py-4 sm:px-6">
-                                      <div className="min-w-0 flex-1 flex items-center">
-                                        <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                                          <div>
-                                            <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-bold bg-blue-100 text-blue-800">
-                                              {section.number !== -1 && `${section.number} .`}
-                                              {` ${application.position + 1}`}
-                                            </p>
-                                            <p className="mt-2 flex items-center text-sm text-gray-500">
-                                              <span>{application.name}</span>
-                                            </p>
-                                          </div>
-                                          <div className="hidden md:block">
-                                            <p className="block text-base text-gray-500 font-bold">
-                                              Assessment
-                                            </p>
-                                            <ButtonGroupField
-                                              disabled={audit && !isAdmin}
-                                              name={`auditType.auditSection[${sectionIndex}].auditActions[${i}].assessment`}
-                                            />
-                                          </div>
-                                        </div>
+                                  <div className="hover:bg-gray-50 flex p-2 flex-wrap">
+                                    <div className="flex w-full xl:w-1/3 items-center pr-4">
+                                      <div className="flex justify-center items-center mx-2 px-2.5 py-0.5 rounded-full text-sm font-bold bg-blue-100 text-blue-800">
+                                        {section.number !== -1
+                                          ? `${section.number}.${application.position + 1}`
+                                          : application.position + 1}
                                       </div>
-                                      <div className="w-1/3">
-                                        <LabeledTextAreaField
-                                          name={`auditType.auditSection[${sectionIndex}].auditActions[${i}].comment`}
-                                          label="Comment"
-                                          placeholder="Add comment here..."
-                                          rows={3}
-                                          disabled={audit && !isAdmin}
-                                        />
-                                      </div>
+                                      <p className="flex items-center text-sm text-gray-500">
+                                        <span>{application.name}</span>
+                                      </p>
+                                    </div>
+                                    <div className="w-full lg:w-1/2 xl:w-1/3 mt-2 xl:mt-0">
+                                      <p className="block text-base text-gray-500 font-bold">
+                                        Assessment
+                                      </p>
+                                      <ButtonGroupField
+                                        disabled={audit && !isAdmin}
+                                        name={`auditType.auditSection[${sectionIndex}].auditActions[${i}].assessment`}
+                                      />
+                                    </div>
+
+                                    <div className="w-full lg:w-1/2 xl:w-1/3 mt-2 xl:mt-0">
+                                      <LabeledTextAreaField
+                                        name={`auditType.auditSection[${sectionIndex}].auditActions[${i}].comment`}
+                                        label="Comment"
+                                        placeholder="Add comment here..."
+                                        rows={3}
+                                        disabled={audit && !isAdmin}
+                                      />
                                     </div>
                                   </div>
                                 </li>

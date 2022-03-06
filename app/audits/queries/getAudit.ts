@@ -13,6 +13,7 @@ export default resolver.pipe(resolver.zod(GetAudit), resolver.authorize(), async
     where: { id },
     include: {
       date: true,
+      location: true,
       auditType: {
         include: {
           auditSection: {
